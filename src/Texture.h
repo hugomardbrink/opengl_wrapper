@@ -2,7 +2,7 @@
 #include <glad/glad.h> // include glad to get all the required OpenGL headers
 #include <stdint.h>
 #include <string>
-#include "lib/stb_image.h"
+#include "stb_image.h"
 #include "Shader.h"
 
 class Texture

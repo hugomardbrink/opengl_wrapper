@@ -3,6 +3,13 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+
+# External dependencies
+dependencies/
+src/glad.c
+src/stb_image.cpp
+src/stb_image.h
+
 # User-specific files
 *.rsuser
 *.suo
