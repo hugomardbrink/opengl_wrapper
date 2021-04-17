@@ -27,7 +27,7 @@ The following libraries are needed:
  
  Put `glad.c` in the `/src` folder. Then put `glad.h` in `dependencies/include/glad` and `khrplatform.h` in `dependencies/include/KHR`.
  
- ## GLFW
+ ## GLFW3
  Download from the website and put the Visual Studio 2019 binary `glfw3.lib` in `dependecies/binaries`.
  
  ## GLM
