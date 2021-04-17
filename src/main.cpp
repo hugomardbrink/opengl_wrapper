@@ -64,8 +64,8 @@ int32_t main()
 
     VAO.addBuffer(layout);
 
-    Texture2D oceanTexture("./assets/ocean_texture.jpg", GL_RGB);
-    Texture2D islandTexture("./assets/island_texture.png", GL_RGBA);
+    Texture2D oceanTexture("./assets/textures/ocean_texture.jpg", GL_RGB);
+    Texture2D islandTexture("./assets/textures/island_texture.png", GL_RGBA);
 
     shader.use();
     shader.setUniform<int>("oceanTexture", 0);
