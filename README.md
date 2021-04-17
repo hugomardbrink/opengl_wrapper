@@ -47,3 +47,6 @@ If linking is not working properly, ensure following solution settings:
 * `$(ProjectDir)dependencies\include` is added as **Additional Include Directories**.
 * `$(ProjectDir)dependencies\binaries` is added under **Additional Library Directories**.
 * `glfw3.lib` is added under **Additional dependencies**.
+
+# Side note
+`main.cpp`, shaders and images in `assets/textures` and `/shader` are placeholders to demonstrate how the wrapper is used.
