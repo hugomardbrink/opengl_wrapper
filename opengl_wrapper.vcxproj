@@ -147,9 +147,11 @@
   <ItemGroup>
     <ClCompile Include="src\BufferLayout.cpp" />
     <ClCompile Include="src\ElementBuffer.cpp" />
+    <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\stb_image.cpp" />
     <ClCompile Include="src\Texture2D.cpp" />
     <ClCompile Include="src\VertexArray.cpp" />
     <ClCompile Include="src\VertexBuffer.cpp" />
@@ -159,6 +161,7 @@
     <ClInclude Include="src\ElementBuffer.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\stb_image.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Texture2D.h" />
     <ClInclude Include="src\VertexArray.h" />
