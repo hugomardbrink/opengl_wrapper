@@ -1,4 +1,4 @@
-# openGL wrapper for future projects
+# simple openGL wrapper 
 
 This is a wrapper for the [openGL](https://www.opengl.org//) api meant for Windows. It will be based on the modern 3.3+ iteration of openGL.
 
