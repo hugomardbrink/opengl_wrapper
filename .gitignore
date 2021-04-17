@@ -9,6 +9,7 @@ dependencies/
 src/glad.c
 src/stb_image.cpp
 src/stb_image.h
+src/main.cpp
 
 # User-specific files
 *.rsuser
