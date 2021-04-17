@@ -49,4 +49,4 @@ If linking is not working properly, ensure following solution settings:
 * `glfw3.lib` is added under **Additional dependencies**.
 
 # Side note
-`main.cpp`, shaders and images in `assets/textures` and `/shader` are placeholders to demonstrate how the wrapper is used.
+`main.cpp`, shaders and images in `assets/textures` and `/shaders` are placeholders to demonstrate how the wrapper is used.
