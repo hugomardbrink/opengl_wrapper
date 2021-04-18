@@ -44,7 +44,7 @@ The following libraries are needed:
 ### Linking issues
 
 If linking is not working properly, ensure following solution settings:
-* `$(ProjectDir)dependencies\include` is added as **Additional Include Directories**.
+* `$(ProjectDir)dependencies\include` is added under **Additional Include Directories**.
 * `$(ProjectDir)dependencies\binaries` is added under **Additional Library Directories**.
 * `glfw3.lib` is added under **Additional dependencies**.
 
