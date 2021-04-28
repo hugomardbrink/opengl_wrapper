@@ -1,9 +1,17 @@
 #include "Texture2D.h"
 
-Texture2D::Texture2D(const std::string& imagePath, uint32_t colorFormat)
+Texture2D::Texture2D(const std::string& imagePath)
 {
 	int32_t width, height, nrChannels;
+	uint32_t colorFormat = 0;
 	uint8_t* data;
+
+	std::string format = imagePath.substr(imagePath.length() - 3, imagePath.length());
+	
+	if (format._Equal("jpg")) colorFormat = GL_RGB;
+	else if (format._Equal("png")) colorFormat = GL_RGBA;
+	else std::cout << "ERROR::TEXTURE2D::IMAGE_EXTENSION_NOT_SUPPORTED" << std::endl;
+
 
 	stbi_set_flip_vertically_on_load(1);
 	data = stbi_load(imagePath.c_str(), &width, &height, &nrChannels, 0);

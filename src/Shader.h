@@ -11,6 +11,10 @@
 #include <iostream>
 #include <stdint.h>
 
+
+/**
+ * Handles a shader program. Supports vertex and fragment shaders
+ */
 class Shader {
 public: 
 	// constructor reads and builds the shader
@@ -28,9 +32,9 @@ private:
 	uint32_t rendererID;
 	uint32_t compileFragmentShader(const char* fragmentShaderSource);
 	uint32_t compileVertexShader(const char* vertexShaderSource);
-	uint32_t linkShaders(uint32_t vertexShader, uint32_t fragmentShader);
+	void linkShaders(uint32_t vertexShader, uint32_t fragmentShader);
 	bool assertCompilation(uint32_t shader);
-	bool assertLinking(uint32_t shaderProgram);
+	bool assertLinking();
 
 };
 

@@ -5,6 +5,9 @@
 #include "stb_image.h"
 #include "Shader.h"
 
+/**
+ * A virtual class that forces a bind method and a opengl ID on its children
+ */
 class Texture
 {
 public:

@@ -1,9 +1,12 @@
 #include "Renderer.h"
 
-
-void Renderer::clear() const
+/**
+ * Clears window with specified colour
+ * @param colour The colour that clears the screen
+ */
+void Renderer::clear(glm::vec4 colour) const
 {
-	glClearColor(0.2f, 0.5f, 0.8f, 1.0f);  // Defines the color that clears the screen, also sets the state
+	glClearColor(colour.r, colour.g, colour.b, colour.a);  // Defines the color that clears the screen, also sets the state
 	glClear(GL_COLOR_BUFFER_BIT);          // Clears the colour buffer, uses current state to get clearing color
 }
 

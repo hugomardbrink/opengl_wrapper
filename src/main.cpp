@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <assert.h>
 #include "stb_image.h"
     
 #include <glm/glm.hpp>
@@ -56,20 +57,23 @@ int32_t main()
     ElementBuffer EBO(indices, sizeof(indices));
 
     BufferLayout layout;
-    layout.push<float>(3, 0); // Vertices
-    layout.push<float>(3, 3); // Colors
-    layout.push<float>(2, 6); // Texture
+    layout.push<float>(3); // Vertices
+    layout.push<float>(3); // Colors
+    layout.push<float>(2); // Texture
 
-    VAO.addBuffer(layout);
+    VAO.addBuffer(VBO, layout);
 
-    Texture2D oceanTexture("./assets/textures/ocean_texture.jpg", GL_RGB);
-    Texture2D islandTexture("./assets/textures/island_texture.png", GL_RGBA);
+    Texture2D oceanTexture("./assets/textures/ocean_texture.jpg");
+    Texture2D islandTexture("./assets/textures/island_texture.png");
 
     shader.use();
     shader.setUniform<int>("oceanTexture", 0);
 	oceanTexture.bind(0);
     shader.setUniform<int>("islandTexture", 1);
     islandTexture.bind(1);
+
+    // glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
+
 
     Renderer renderer;
 	while (!glfwWindowShouldClose(window)) {
@@ -78,7 +82,7 @@ int32_t main()
 
 		/*  RENDERING  */
 
-		renderer.clear();
+        renderer.clear(glm::vec4{ 0.2f, 0.5f, 0.8f, 1.0f });
 
 		glm::mat4 trans(1.0f);
 		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 1.0f));

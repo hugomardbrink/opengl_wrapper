@@ -1,5 +1,11 @@
 #include "Shader.h"
 
+
+/**
+ * Compiles fragment and vertex shaders and allocates GPU-resource for a shader program
+ * @param vertexPath The system-path to the vertex shader
+ * @param fragmentPath The system-path to the fragment shader
+ */
 Shader::Shader(const char* vertexPath, const char* fragmentPath) 
 {
 	// Stores files for shaders
@@ -42,17 +48,25 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
 	uint32_t vertexShader = compileVertexShader(vertexSourceCode.c_str());
 	uint32_t fragmentShader = compileFragmentShader(fragmentSourceCode.c_str());
-	rendererID = linkShaders(vertexShader, fragmentShader);
+	linkShaders(vertexShader, fragmentShader);
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 }
 
+/**
+ * Deallocates the GPU-resource for the shader program
+ */
 Shader::~Shader() 
 {
 	glDeleteProgram(rendererID);
 }
 
+/**
+ * Compiles the fragment shader
+ * @param fragmentSourceCode The source code for the fragment shader
+ * @return ID for fragment shader
+ */
 uint32_t Shader::compileFragmentShader(const char* fragmentSourceCode)
 {
 	// Creates a ID reference to a fragment shader
@@ -64,12 +78,16 @@ uint32_t Shader::compileFragmentShader(const char* fragmentSourceCode)
 	glCompileShader(fragmentShader);
 
 
-	if (!(assertCompilation(fragmentShader)))
-		return 0;
+	if (!(assertCompilation(fragmentShader))) return 0;
 
 	return fragmentShader;
 }
 
+/**
+ * Compiles the vertex shader
+ * @param vertexSourceCode The source code for the vertex shader
+ * @return ID for the vertex shader
+ */
 uint32_t Shader::compileVertexShader(const char* vertexSourceCode)
 {
 	uint32_t vertexShader;
@@ -80,17 +98,24 @@ uint32_t Shader::compileVertexShader(const char* vertexSourceCode)
 	glShaderSource(vertexShader, 1, &vertexSourceCode, NULL);
 	glCompileShader(vertexShader);  // Compiles the shader's source code
 
-	if (!(assertCompilation(vertexShader)))
-		return 0;
+	if (!(assertCompilation(vertexShader))) return 0;
 
 	return vertexShader;
 }
 
+/**
+ * Set this shader as active shader in opengl
+ */
 void Shader::use() const
 {
 	glUseProgram(rendererID);
 }
 
+/**
+ * Asserts if compilation of shaders was successful
+ * @param shader The shader ID to validate compilation
+ * @return 1 if compilation succeded, 0 if not
+ */
 bool Shader::assertCompilation(uint32_t shader) 
 {
 	int32_t success;
@@ -106,15 +131,19 @@ bool Shader::assertCompilation(uint32_t shader)
 	return 1;
 }
 
-bool Shader::assertLinking(uint32_t shaderProgram) 
+/**
+ * Asserts if linking of shaders was successful
+ * @return 1 if linking succeded, 0 if not
+ */
+bool Shader::assertLinking() 
 {
 	int32_t success;
 	char infoLog[512];
 
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	glGetProgramiv(rendererID, GL_LINK_STATUS, &success);
 
 	if (!success) {  // If compilation failed, use glGetShaderInfoLog() to retrieve fail status, then output it to console.
-		glGetShaderInfoLog(shaderProgram, 512, NULL, infoLog);
+		glGetShaderInfoLog(rendererID, 512, NULL, infoLog);
 		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
 		return 0;
 	}
@@ -122,29 +151,25 @@ bool Shader::assertLinking(uint32_t shaderProgram)
 	return 1;
 }
 
-uint32_t Shader::linkShaders(uint32_t vertexShader, uint32_t fragmentShader) 
+void Shader::linkShaders(uint32_t vertexShader, uint32_t fragmentShader) 
 {
 
 	// When vertex and fragment shader is created we the to link them to shader program object which will be called when rendering
 	// Linking links vertex into next shader and frament into next etc...
 	// Input and outputs must match
-	uint32_t shaderProgram;
-	shaderProgram = glCreateProgram();  //Create a reference ID to a program object
+	rendererID = glCreateProgram();  //Create a reference ID to a program object
 
 	// Attach our vertex and Fragment shader to the program
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
+	glAttachShader(rendererID, vertexShader);
+	glAttachShader(rendererID, fragmentShader);
 	// Link all shaders to the program object
-	glLinkProgram(shaderProgram);
+	glLinkProgram(rendererID);
 
-	if (!(assertLinking(shaderProgram)))
-		return 0;
+	assertLinking();
 
 	// Delete shader object after linking is done
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
-
-	return shaderProgram;
 }
 
 template <typename T> void Shader::setUniform(const std::string& name, T value) const
