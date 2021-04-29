@@ -86,6 +86,7 @@ void Window::pollEvents()
 /**
  * Processes inputs from the keyboard
  * @note should be event triggers
+ * @note could be in wrong location
  */
 void Window::processInput()
 {
