@@ -9,31 +9,25 @@
 Shader::Shader(const char* vertexPath, const char* fragmentPath) 
 {
 	// Stores files for shaders
-	std::ifstream vertexFile;
-	std::ifstream fragmentFile;
+	std::ifstream vertexFile, fragmentFile;
 
-	// Stores source code of the shaders
-	std::string vertexSourceCode;
-	std::string fragmentSourceCode;
+	std::string vertexSourceCode,fragmentSourceCode;
 
-	// ensure ifstream objects can throw exceptions:
+	std::stringstream vertexStream, fragmentStream;
+
+	// Ensure ifstream objects can throw exceptions:
 	vertexFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	fragmentFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 
 	try 
 	{
-		// Open shader files
 		vertexFile.open(vertexPath);
 		fragmentFile.open(fragmentPath);
-
-		// Stores streams from shader files
-		std::stringstream vertexStream, fragmentStream;
 
 		// Read files content into stream
 		vertexStream << vertexFile.rdbuf();
 		fragmentStream << fragmentFile.rdbuf();
 
-		// Close files
 		vertexFile.close();
 		fragmentFile.close();
 
@@ -43,15 +37,16 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
 	} 
 	catch(std::ifstream::failure e) 
 	{
-		std::cout << "ERROR::SHADER::FILE_FAILED_TO_READ" << std::endl;
+		std::cout << "ERROR::SHADER::FILE_FAILED_TO_READ\n" << std::endl;
 	}
 
-	uint32_t vertexShader = compileVertexShader(vertexSourceCode.c_str());
-	uint32_t fragmentShader = compileFragmentShader(fragmentSourceCode.c_str());
-	linkShaders(vertexShader, fragmentShader);
+	uint32_t vertexShaderID = compileVertexShader(vertexSourceCode.c_str());
+	uint32_t fragmentShaderID = compileFragmentShader(fragmentSourceCode.c_str());
+	linkShaders(vertexShaderID, fragmentShaderID);
 
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	// Deallocates GPU-resource 
+	glDeleteShader(vertexShaderID);
+	glDeleteShader(fragmentShaderID);
 }
 
 /**
@@ -69,18 +64,16 @@ Shader::~Shader()
  */
 uint32_t Shader::compileFragmentShader(const char* fragmentSourceCode)
 {
-	// Creates a ID reference to a fragment shader
-	uint32_t fragmentShader;
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	uint32_t fragmentShaderID;
+	fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
 
-	// Compiles the fragmentshader with same standard as above
-	glShaderSource(fragmentShader, 1, &fragmentSourceCode, NULL);
-	glCompileShader(fragmentShader);
+	// Adds source code to created shader and compiles it
+	glShaderSource(fragmentShaderID, 1, &fragmentSourceCode, NULL);
+	glCompileShader(fragmentShaderID);
 
+	logCompilationStatus(fragmentShaderID);
 
-	if (!(assertCompilation(fragmentShader))) return 0;
-
-	return fragmentShader;
+	return fragmentShaderID;
 }
 
 /**
@@ -90,17 +83,16 @@ uint32_t Shader::compileFragmentShader(const char* fragmentSourceCode)
  */
 uint32_t Shader::compileVertexShader(const char* vertexSourceCode)
 {
-	uint32_t vertexShader;
-	vertexShader = glCreateShader(GL_VERTEX_SHADER); // Create a shader referenced by this ID. 
+	uint32_t vertexShaderID;
+	vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
 
-	// Takes the ID shader reference, 1 string of source code, the source code of the shader, 4th is ignored
-	// With these parameters it generates source code for the shader
-	glShaderSource(vertexShader, 1, &vertexSourceCode, NULL);
-	glCompileShader(vertexShader);  // Compiles the shader's source code
+	// Adds source code to created shader and compiles it
+	glShaderSource(vertexShaderID, 1, &vertexSourceCode, NULL);
+	glCompileShader(vertexShaderID);
 
-	if (!(assertCompilation(vertexShader))) return 0;
+	logCompilationStatus(vertexShaderID);
 
-	return vertexShader;
+	return vertexShaderID;
 }
 
 /**
@@ -114,90 +106,116 @@ void Shader::use() const
 /**
  * Asserts if compilation of shaders was successful
  * @param shader The shader ID to validate compilation
- * @return 1 if compilation succeded, 0 if not
  */
-bool Shader::assertCompilation(uint32_t shader) 
+void Shader::logCompilationStatus(uint32_t shaderID) 
 {
 	int32_t success;
 	char infoLog[512];
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);  // Check if shader compilation failed, result is stored in var
+	glGetShaderiv(shaderID, GL_COMPILE_STATUS, &success);  // Check if shader compilation failed, result is stored in var
 
 	if (!success) {  // If compilation failed, use glGetShaderInfoLog() to retrieve fail status, then output it to console.
-		glGetShaderInfoLog(shader, 512, NULL, infoLog);
+		glGetShaderInfoLog(shaderID, 512, NULL, infoLog);
 		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-		return 0;
 	}
-
-	return 1;
+	else std::cout << "Shader " << shaderID << " compiled successfully..." << std::endl;
 }
 
 /**
  * Asserts if linking of shaders was successful
- * @return 1 if linking succeded, 0 if not
  */
-bool Shader::assertLinking() 
+void Shader::logLinkingStatus() 
 {
 	int32_t success;
 	char infoLog[512];
 
 	glGetProgramiv(rendererID, GL_LINK_STATUS, &success);
 
-	if (!success) {  // If compilation failed, use glGetShaderInfoLog() to retrieve fail status, then output it to console.
+	if (!success)
+	{ 
 		glGetShaderInfoLog(rendererID, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-		return 0;
+		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED" << infoLog << std::endl;
 	}
-
-	return 1;
+	else std::cout << "Shaders linked successfully..." << std::endl;
 }
 
-void Shader::linkShaders(uint32_t vertexShader, uint32_t fragmentShader) 
+
+/**
+ * Links vertex and fragment shader to a shader program
+ * @param vertexShaderID The reference ID for the vertex shader
+ * @param fragmentShaderID The reference ID for the fragment shader
+ */
+void Shader::linkShaders(uint32_t vertexShaderID, uint32_t fragmentShaderID) 
 {
+	// Allocates GPU-Resource for shader
+	rendererID = glCreateProgram();
 
-	// When vertex and fragment shader is created we the to link them to shader program object which will be called when rendering
-	// Linking links vertex into next shader and frament into next etc...
-	// Input and outputs must match
-	rendererID = glCreateProgram();  //Create a reference ID to a program object
+	// Attach vertex and fragment shaders
+	glAttachShader(rendererID, vertexShaderID);
+	glAttachShader(rendererID, fragmentShaderID);
 
-	// Attach our vertex and Fragment shader to the program
-	glAttachShader(rendererID, vertexShader);
-	glAttachShader(rendererID, fragmentShader);
-	// Link all shaders to the program object
+	// Links attached shaders to program
 	glLinkProgram(rendererID);
+	logLinkingStatus();
 
-	assertLinking();
-
-	// Delete shader object after linking is done
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	// Free up GPU-Resource
+	glDeleteShader(vertexShaderID);
+	glDeleteShader(fragmentShaderID);
 }
 
+/**
+ * Catch all types not supported and throws error, should never be used
+ * @param name The name of the uniform var in the shader
+ * @param value The value assigned to the uniform
+ */
 template <typename T> void Shader::setUniform(const std::string& name, T value) const
 {
 	std::cout << "ERROR::SHADER::UNIFORM_TYPE_NOT_SUPPORTED" << std::endl;
 	static_assert(false);
 }
 
+/**
+ * Sets uniform for bool uniforms
+ * @param name The name of the uniform var in the shader
+ * @param value The value assigned to the uniform
+ */
 template <> void Shader::setUniform<bool>(const std::string& name, bool value) const
 {
 	glUniform1i(glGetUniformLocation(rendererID, name.c_str()), value);
 }
 
+/**
+ * Sets uniform for integer uniforms
+ * @param name The name of the uniform var in the shader
+ * @param value The value assigned to the uniform
+ */
 template <> void Shader::setUniform<int>(const std::string& name, int value) const
 {
 	glUniform1i(glGetUniformLocation(rendererID, name.c_str()), value);
 }
 
+/**
+ * Sets uniform for float uniforms
+ * @param name The name of the uniform var in the shader
+ * @param value The value assigned to the uniform
+ */
 template <> void Shader::setUniform<float>(const std::string& name, float value) const
 {
 	glUniform1f(glGetUniformLocation(rendererID, name.c_str()), value);
 }
 
+/**
+ * Sets uniform for 4x4 matrix uniforms
+ * @param name The name of the uniform var in the shader
+ * @param value The value assigned to the uniform
+ */
 template <> void Shader::setUniform<glm::mat4>(const std::string& name, glm::mat4 value) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(rendererID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 
+/**
+ * @return the opengl reference ID
+ */
 uint32_t Shader::getRendererID() 
 {
 	return rendererID;

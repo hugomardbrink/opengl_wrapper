@@ -29,6 +29,5 @@ public:
 private:
 	std::vector<BufferElement> elements;
 	uint32_t stride;
-	uint32_t offsetStart;
 };
 

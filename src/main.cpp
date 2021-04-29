@@ -1,7 +1,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include <assert.h>
 #include "stb_image.h"
     
 #include <glm/glm.hpp>
@@ -36,6 +35,7 @@ int32_t main()
 
     GLFWwindow* window = initOpengl(HEIGHT, WIDTH, MAJOR_VER, MINOR_VER, WINDOW_NAME);
 
+    // vertices for rectangles: position, colour and texture position
     float vertices[] = 
     {    // Position            // Colour            // Texture Position
          0.5f,  0.5f, 0.0f,     1.0f, 0.0f, 0.0f,    1.0f, 1.0f, // top right
@@ -44,12 +44,14 @@ int32_t main()
         -0.5f,  0.5f, 0.0f,     1.0f, 1.0f, 0.0f,    0.0f, 1.0f  // top left
     };
 
+    // Indices for rectangle
     uint32_t indices[] = 
     {  // note that we start from 0!
         0, 1, 3,   // first triangle
         1, 2, 3    // second triangle
     };
 
+  
     Shader shader("./shaders/VertexShader.vert", "./shaders/FragmentShader.frag");
 
     VertexArray VAO;
@@ -72,18 +74,18 @@ int32_t main()
     shader.setUniform<int>("islandTexture", 1);
     islandTexture.bind(1);
 
-    // glm::ortho(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
-
 
     Renderer renderer;
-	while (!glfwWindowShouldClose(window)) {
+	while (!glfwWindowShouldClose(window)) 
+{
 		/*  INPUTS  */
-		processInput(window);  // Check if any inputs are pressed
+		processInput(window);  
 
 		/*  RENDERING  */
 
         renderer.clear(glm::vec4{ 0.2f, 0.5f, 0.8f, 1.0f });
 
+        // Create a matrix that scales and rotates
 		glm::mat4 trans(1.0f);
 		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 1.0f));
 		trans = glm::scale(trans, glm::vec3(1.25f, 1.25f, 1.25f));
@@ -91,13 +93,19 @@ int32_t main()
         shader.setUniform<glm::mat4>("rotationMatrix", trans);
 
         renderer.draw(VAO, EBO, shader);
+
+
 	/*  CHECK EVENTS AND SWAP BUFFER  */
-		glfwSwapBuffers(window);       // Checks if any events are triggered, updates window state and calls corresponding functions
-		glfwPollEvents();              // This will swap each pixel with corresponding color from 2D buffer
+
+        // Swap pixels with 2D colour buffer
+		glfwSwapBuffers(window);
+        // Checks for event triggers
+		glfwPollEvents();
 	}
 
-    glfwTerminate();    // This will clean up all the allocated glfw resources
-    return 0;           // Exit application
+    // Deallocates all glfw resources
+    glfwTerminate();   
+    return 0;           
 }
 
 void processInput(GLFWwindow* window) 
@@ -127,7 +135,8 @@ GLFWwindow* initOpengl(int32_t height, int32_t width, int32_t majorVersion, int3
     GLFWwindow* window = glfwCreateWindow(width, height, name, NULL, NULL);     // Create window for object
 
     // Window creation fails if the address is 0
-    if (!window) {
+    if (!window) 
+    {
         std::cout << "Failed to create window" << std::endl;
         glfwTerminate();
         return NULL;
@@ -136,7 +145,8 @@ GLFWwindow* initOpengl(int32_t height, int32_t width, int32_t majorVersion, int3
     glfwMakeContextCurrent(window); // Set the created windows context on the calling thread
 
     // If compiling on wrong OS, exit program
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
+    {
         std::cout << "Failed to initialize GLAD" << std::endl;
         glfwTerminate();    // This will clean up all the allocated glfw resources
         return NULL;

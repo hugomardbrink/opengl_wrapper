@@ -8,6 +8,9 @@
 #include "ElementBuffer.h"
 
 
+/**
+ * Handles rendering in the window
+ */
 class Renderer
 {
 public:

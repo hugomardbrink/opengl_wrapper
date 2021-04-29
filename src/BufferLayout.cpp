@@ -5,12 +5,11 @@
  * Creates empty object
  */
 BufferLayout::BufferLayout() : 
-stride(0),
-offsetStart(0) {}
+stride(0) {}
 
 /**
- * Catch all types not supported and throws error
- * @param count The amount of 
+ * Catch all types not supported and throws error, should never be used
+ * @param count The count of stored data, i.e a 3D position => count = 3
  */
 template <typename T> void BufferLayout::push(uint32_t count) 
 {
@@ -24,9 +23,8 @@ template <typename T> void BufferLayout::push(uint32_t count)
  */
 template<> void BufferLayout::push<float>(uint32_t count) 
 {
-	elements.push_back({ GL_FLOAT, count, GL_FALSE, offsetStart * sizeof(GL_FLOAT) });
+	elements.push_back({ GL_FLOAT, count, GL_FALSE, stride * sizeof(GL_FLOAT) });
 	stride += count;
-	offsetStart += count;
 }
 
 /**
@@ -35,9 +33,8 @@ template<> void BufferLayout::push<float>(uint32_t count)
  */
 template<> void BufferLayout::push<uint32_t>(uint32_t count) 
 {
-	elements.push_back({ GL_UNSIGNED_INT, count, GL_FALSE, offsetStart * sizeof(GL_UNSIGNED_INT) });
+	elements.push_back({ GL_UNSIGNED_INT, count, GL_FALSE, stride * sizeof(GL_UNSIGNED_INT) });
 	stride += count;
-	offsetStart += count;
 }
 
 /**
@@ -46,9 +43,8 @@ template<> void BufferLayout::push<uint32_t>(uint32_t count)
  */
 template<> void BufferLayout::push<uint8_t>(uint32_t count) 
 {
-	elements.push_back({ GL_UNSIGNED_BYTE, count, GL_TRUE, offsetStart * sizeof(GL_UNSIGNED_BYTE) });
+	elements.push_back({ GL_UNSIGNED_BYTE, count, GL_TRUE, stride * sizeof(GL_UNSIGNED_BYTE) });
 	stride += count;
-	offsetStart += count;
 }
 
 /**

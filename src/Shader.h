@@ -32,9 +32,9 @@ private:
 	uint32_t rendererID;
 	uint32_t compileFragmentShader(const char* fragmentShaderSource);
 	uint32_t compileVertexShader(const char* vertexShaderSource);
-	void linkShaders(uint32_t vertexShader, uint32_t fragmentShader);
-	bool assertCompilation(uint32_t shader);
-	bool assertLinking();
+	void linkShaders(uint32_t vertexShaderID, uint32_t fragmentShaderID);
+	void logCompilationStatus(uint32_t shaderID);
+	void logLinkingStatus();
 
 };
 

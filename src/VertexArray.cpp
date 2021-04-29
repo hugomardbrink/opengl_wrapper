@@ -25,19 +25,22 @@ VertexArray::~VertexArray()
  */
 void VertexArray::addBuffer(const VertexBuffer& VBO, const BufferLayout& layout)
 {
-	VBO.bind();
+	// Binds the vertex array and bind buffer and strife layout for it
+	bind();
+	VBO.bind();	
 	const auto& elements = layout.getElements();
 
 	for (uint32_t i = 0; i < elements.size(); i++) 
 	{
-		const auto& element = elements[i];
-
-		glVertexAttribPointer(i, element.count, element.type, element.normalized, 
-			layout.getStride() * sizeof(element.type), (const void*)element.offset); // location 0, set attributes of the pos, set type, no normalizing, set stride distance size.
+		const auto& element = elements[i];												
 		
-		glEnableVertexAttribArray(i);   // Enable vertex attributes, vertex attribute 0 is now associated with its vertex data
+		// Adds configurations for attribute i, (strife configs)
+		glVertexAttribPointer(i, element.count, element.type, element.normalized, 
+			layout.getStride() * sizeof(element.type), (const void*)element.offset);	
+				
+		// Enables configures attribute i
+		glEnableVertexAttribArray(i);													
 	}
-	
 }
 
 /**
