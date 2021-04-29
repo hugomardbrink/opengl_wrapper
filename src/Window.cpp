@@ -44,26 +44,40 @@ Window::Window()
 	glfwSetFramebufferSizeCallback(glfwWindow, framebuffer_size_callback);
 }
 
-
+/**
+ * Deallocate glfw resources
+ */
 Window::~Window()
 {
 	glfwTerminate();
 }
 
+/**
+ * @return 1 if window is closing, 0 if not
+ */
 int32_t Window::windowClosing() {
 	return glfwWindowShouldClose(glfwWindow);
 }
 
+/**
+ * @return pointer to glfw window
+ */
 GLFWwindow* Window::getGlfwWindow()
 {
 	return glfwWindow;
 }
 
+/**
+ * Swaps pixels with 2D colour buffer
+ */
 void Window::swapBuffers()
 {
 	glfwSwapBuffers(glfwWindow);
 }
 
+/**
+ * Triggers events
+ */
 void Window::pollEvents()
 {
 	glfwPollEvents();

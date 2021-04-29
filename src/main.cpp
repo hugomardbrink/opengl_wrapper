@@ -85,14 +85,10 @@ int32_t main()
 
         /*  CHECK EVENTS AND SWAP BUFFER  */
 
-        // Swap pixels with 2D colour buffer
         window.swapBuffers();
-        // Checks for event triggers
         window.pollEvents();
     }
 
-    // Deallocates all glfw resources
-    glfwTerminate();   
     return 0;           
 }
 

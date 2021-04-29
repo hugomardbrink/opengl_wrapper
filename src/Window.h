@@ -6,6 +6,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+/**
+ * Handles the window states and buffers
+ */
 class Window
 {
 public:
