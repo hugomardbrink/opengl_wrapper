@@ -1,12 +1,12 @@
+#include <iostream>
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <iostream>
-#include "stb_image.h"
-    
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "stb_image.h"
 #include "Shader.h"
 #include "ElementBuffer.h"
 #include "VertexBuffer.h"
@@ -110,8 +110,9 @@ int32_t main()
 
 void processInput(GLFWwindow* window) 
 {
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)  // Checks if the escape key is pressed in the current window
-        glfwSetWindowShouldClose(window, true);             // Close said window if condition is met
+    // Checks if escape key is pressed, then closes window
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)  
+        glfwSetWindowShouldClose(window, true);             
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -122,40 +123,42 @@ void processInput(GLFWwindow* window)
 
 void framebuffer_size_callback(GLFWwindow* window, int32_t width, int32_t height) 
 {
-    glViewport(0, 0, width, height);   // Resizes window to fit new resize
+    glViewport(0, 0, width, height);   
 }
 
 GLFWwindow* initOpengl(int32_t height, int32_t width, int32_t majorVersion, int32_t minorVersion, const char* name)
 {
+    // Core-profile, ver 3.3
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, majorVersion);    // Using version 3.3
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, majorVersion);  
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minorVersion);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);   // Core-profile, skip backward-compatibility features
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);   
 
-    GLFWwindow* window = glfwCreateWindow(width, height, name, NULL, NULL);     // Create window for object
+    GLFWwindow* window = glfwCreateWindow(width, height, name, NULL, NULL);
 
-    // Window creation fails if the address is 0
     if (!window) 
     {
-        std::cout << "Failed to create window" << std::endl;
+        std::cout << "ERROR::WINDOW::CREATION_FAILED" << std::endl;
         glfwTerminate();
         return NULL;
     }
 
-    glfwMakeContextCurrent(window); // Set the created windows context on the calling thread
+    // Create window on calling thread
+    glfwMakeContextCurrent(window);
 
-    // If compiling on wrong OS, exit program
+
+    // Exit if wrong OS
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
     {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        glfwTerminate();    // This will clean up all the allocated glfw resources
+        std::cout << "ERROR::GLAD::INITIALIZATION_FAILED" << std::endl;
+        glfwTerminate();
         return NULL;
     }
 
-    // Tells openGL the rendering dimensions in respect to the window, (0,0) is bottom left corner
+    // Tells openGL the rendering dimensions, (0,0) is bottom left
     glViewport(0, 0, width, height);
 
-    // GLFW will use our framebuffer size callback whenever the window is resized
+    // Use function when window is resized
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     return window;
