@@ -1,7 +1,10 @@
 #pragma once
+
+#include <string>
 #include <glad/glad.h> // include glad to get all the required OpenGL headers
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+
 
 #include "VertexArray.h"
 #include "Shader.h"

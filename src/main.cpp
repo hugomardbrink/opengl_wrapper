@@ -12,31 +12,19 @@
 #include "VertexBuffer.h"
 #include "VertexArray.h"
 #include "Renderer.h"
+#include "Window.h"
 #include "Texture2D.h"
 
-
-constexpr uint32_t HEIGHT = 600;
-constexpr uint32_t WIDTH = 800;
-constexpr uint32_t MAJOR_VER = 3;
-constexpr uint32_t MINOR_VER = 3;
-const     char*    WINDOW_NAME = "Window";
-
-
-// When the user resizes window this function adjusts the openGL dimensions
-void framebuffer_size_callback(GLFWwindow* window, int32_t width, int32_t height);
 // This is to check if specific input are pressed in this window
 void processInput(GLFWwindow* window);
 
-GLFWwindow* initOpengl(int32_t height, int32_t width, int32_t majorVersion, int32_t minorVersion, const char* name);
-
-
-int32_t main() 
+int32_t main()
 {
 
-    GLFWwindow* window = initOpengl(HEIGHT, WIDTH, MAJOR_VER, MINOR_VER, WINDOW_NAME);
+    Window window;
 
-    // vertices for rectangles: position, colour and texture position
-    float vertices[] = 
+    // Vertices for rectangles: position, colour and texture position
+    float vertices[] =
     {    // Position            // Colour            // Texture Position
          0.5f,  0.5f, 0.0f,     1.0f, 0.0f, 0.0f,    1.0f, 1.0f, // top right
          0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 0.0f,    1.0f, 0.0f, // bottom right
@@ -45,13 +33,13 @@ int32_t main()
     };
 
     // Indices for rectangle
-    uint32_t indices[] = 
+    uint32_t indices[] =
     {  // note that we start from 0!
         0, 1, 3,   // first triangle
         1, 2, 3    // second triangle
     };
 
-  
+
     Shader shader("./shaders/VertexShader.vert", "./shaders/FragmentShader.frag");
 
     VertexArray VAO;
@@ -70,38 +58,38 @@ int32_t main()
 
     shader.use();
     shader.setUniform<int>("oceanTexture", 0);
-	oceanTexture.bind(0);
+    oceanTexture.bind(0);
     shader.setUniform<int>("islandTexture", 1);
     islandTexture.bind(1);
 
 
     Renderer renderer;
-	while (!glfwWindowShouldClose(window)) 
-{
-		/*  INPUTS  */
-		processInput(window);  
+    while (!window.windowClosing())
+    {
+        /*  INPUTS  */
+        processInput(window.getGlfwWindow());
 
-		/*  RENDERING  */
+        /*  RENDERING  */
 
         renderer.clear(glm::vec4{ 0.2f, 0.5f, 0.8f, 1.0f });
 
         // Create a matrix that scales and rotates
-		glm::mat4 trans(1.0f);
-		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 1.0f));
-		trans = glm::scale(trans, glm::vec3(1.25f, 1.25f, 1.25f));
+        glm::mat4 trans(1.0f);
+        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 1.0f));
+        trans = glm::scale(trans, glm::vec3(1.25f, 1.25f, 1.25f));
 
         shader.setUniform<glm::mat4>("rotationMatrix", trans);
 
         renderer.draw(VAO, EBO, shader);
 
 
-	/*  CHECK EVENTS AND SWAP BUFFER  */
+        /*  CHECK EVENTS AND SWAP BUFFER  */
 
         // Swap pixels with 2D colour buffer
-		glfwSwapBuffers(window);
+        window.swapBuffers();
         // Checks for event triggers
-		glfwPollEvents();
-	}
+        window.pollEvents();
+    }
 
     // Deallocates all glfw resources
     glfwTerminate();   
@@ -119,47 +107,4 @@ void processInput(GLFWwindow* window)
 
     if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-}
-
-void framebuffer_size_callback(GLFWwindow* window, int32_t width, int32_t height) 
-{
-    glViewport(0, 0, width, height);   
-}
-
-GLFWwindow* initOpengl(int32_t height, int32_t width, int32_t majorVersion, int32_t minorVersion, const char* name)
-{
-    // Core-profile, ver 3.3
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, majorVersion);  
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, minorVersion);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);   
-
-    GLFWwindow* window = glfwCreateWindow(width, height, name, NULL, NULL);
-
-    if (!window) 
-    {
-        std::cout << "ERROR::WINDOW::CREATION_FAILED" << std::endl;
-        glfwTerminate();
-        return NULL;
-    }
-
-    // Create window on calling thread
-    glfwMakeContextCurrent(window);
-
-
-    // Exit if wrong OS
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
-    {
-        std::cout << "ERROR::GLAD::INITIALIZATION_FAILED" << std::endl;
-        glfwTerminate();
-        return NULL;
-    }
-
-    // Tells openGL the rendering dimensions, (0,0) is bottom left
-    glViewport(0, 0, width, height);
-
-    // Use function when window is resized
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-    return window;
 }
