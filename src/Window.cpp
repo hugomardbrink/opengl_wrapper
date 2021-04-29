@@ -83,3 +83,20 @@ void Window::pollEvents()
 	glfwPollEvents();
 }
 
+/**
+ * Processes inputs from the keyboard
+ * @note should be event triggers
+ */
+void Window::processInput()
+{
+    // Checks if escape key is pressed, then closes window
+    if (glfwGetKey(glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)  
+        glfwSetWindowShouldClose(glfwWindow, true);
+
+    if (glfwGetKey(glfwWindow, GLFW_KEY_W) == GLFW_PRESS)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    if (glfwGetKey(glfwWindow, GLFW_KEY_Q) == GLFW_PRESS)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+

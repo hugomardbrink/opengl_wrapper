@@ -15,13 +15,10 @@
 #include "Window.h"
 #include "Texture2D.h"
 
-// This is to check if specific input are pressed in this window
-void processInput(GLFWwindow* window);
-
 int32_t main()
 {
-
     Window window;
+	Renderer renderer;
 
     // Vertices for rectangles: position, colour and texture position
     float vertices[] =
@@ -38,7 +35,6 @@ int32_t main()
         0, 1, 3,   // first triangle
         1, 2, 3    // second triangle
     };
-
 
     Shader shader("./shaders/VertexShader.vert", "./shaders/FragmentShader.frag");
 
@@ -63,11 +59,10 @@ int32_t main()
     islandTexture.bind(1);
 
 
-    Renderer renderer;
     while (!window.windowClosing())
     {
         /*  INPUTS  */
-        processInput(window.getGlfwWindow());
+        window.processInput();
 
         /*  RENDERING  */
 
@@ -90,17 +85,4 @@ int32_t main()
     }
 
     return 0;           
-}
-
-void processInput(GLFWwindow* window) 
-{
-    // Checks if escape key is pressed, then closes window
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)  
-        glfwSetWindowShouldClose(window, true);             
-
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
-    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
