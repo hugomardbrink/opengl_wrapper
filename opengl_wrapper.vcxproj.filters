@@ -85,5 +85,7 @@
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="README.md" />
+    <None Include="shaders\FragmentShader.frag" />
+    <None Include="shaders\VertexShader.vert" />
   </ItemGroup>
 </Project>

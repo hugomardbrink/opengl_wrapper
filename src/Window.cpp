@@ -94,10 +94,10 @@ void Window::processInput()
     if (glfwGetKey(glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)  
         glfwSetWindowShouldClose(glfwWindow, true);
 
-    if (glfwGetKey(glfwWindow, GLFW_KEY_W) == GLFW_PRESS)
+    if (glfwGetKey(glfwWindow, GLFW_KEY_Z) == GLFW_PRESS)
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    if (glfwGetKey(glfwWindow, GLFW_KEY_Q) == GLFW_PRESS)
+    if (glfwGetKey(glfwWindow, GLFW_KEY_X) == GLFW_PRESS)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 

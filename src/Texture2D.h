@@ -1,6 +1,5 @@
 #pragma once
 #include "Texture.h"
-#include <stdexcept>
 
 
 /*

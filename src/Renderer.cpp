@@ -3,6 +3,7 @@
 /**
  * Clears window with specified colour
  * @param colour The colour vector that clears the screen
+ * @note Depth buffer bit should be cleared only when enabled
  */
 void Renderer::clear(glm::vec4 colour) const
 {
@@ -28,13 +29,18 @@ void Renderer::draw(const VertexArray& VAO, const ElementBuffer& EBO, const Shad
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
-
-void Renderer::enableDepthBuffer()
+/**
+ * Enables depth testing
+ */
+void Renderer::enableDepthTesting()
 {
 	glEnable(GL_DEPTH_TEST);
 }
 
-void Renderer::disableDepthBuffer()
+/**
+ * Disables depth testing
+ */
+void Renderer::disableDepthTesting()
 {
 	glDisable(GL_DEPTH_TEST);
 }

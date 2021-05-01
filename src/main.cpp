@@ -136,7 +136,7 @@ int32_t main()
     shader.setUniform<glm::mat4>("projection", projection);
 
 
-    renderer.enableDepthBuffer();
+    renderer.enableDepthTesting();
     while (!window.windowClosing())
     {
         /*  INPUTS  */
