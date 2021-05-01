@@ -30,7 +30,8 @@ int32_t main()
     }; */
 
 
-	float vertices[] = {
+	float vertices[] = 
+    {
 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
 	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
@@ -73,6 +74,16 @@ int32_t main()
 	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
+
+
+    glm::vec3 cubePositions[] =
+    {
+       glm::vec3(0.0f, 0.0f, 0.0f),
+	   glm::vec3(-1.7f,  3.0f, -7.5f),
+       glm::vec3(2.8f, 2.0f, -7.0f),
+       glm::vec3(2.4f, -0.4f, -3.5f),
+       glm::vec3(-1.3f, -1.5f, -2.5f),
+    };
 
 
     // Indices for rectangle
@@ -135,20 +146,17 @@ int32_t main()
 
         renderer.clear(glm::vec4{0.2f, 0.5f, 0.8f, 1.0f});
 
-        // Create a matrix that scales and rotates
-        glm::mat4 trans(1.0f);
-        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 1.0f));
-        trans = glm::scale(trans, glm::vec3(1.25f, 1.25f, 1.25f));
-
-
-		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.5f, 1.0f, 0.0f));
-        shader.setUniform<glm::mat4>("model", model);
-
-        shader.setUniform<glm::mat4>("rotationMatrix", trans);
-
-        renderer.draw(VAO, EBO, shader);
-
+        
+		for (uint32_t i = 0; i < 5; i++)
+		{
+			glm::mat4 model = glm::mat4(1.0f);
+			model = glm::translate(model, cubePositions[i]);
+            float angle = 40.0f * i;
+            if (i % 2) model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(1.0f, 0.3f, 0.5f));
+            else model = glm::rotate(model, glm::radians(40.0f), glm::vec3(1.0f, 0.3f, 0.5f));
+			shader.setUniform<glm::mat4>("model", model);
+            renderer.draw(VAO, EBO, shader);
+		}
 
         /*  CHECK EVENTS AND SWAP BUFFER  */
 

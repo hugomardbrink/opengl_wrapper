@@ -24,6 +24,7 @@ void Renderer::draw(const VertexArray& VAO, const ElementBuffer& EBO, const Shad
 
 	VAO.bind();
 	//glDrawElements(GL_TRIANGLES, EBO.getIndiceCount(), GL_UNSIGNED_INT, NULL);
+
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
