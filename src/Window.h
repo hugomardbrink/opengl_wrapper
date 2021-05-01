@@ -19,6 +19,7 @@ public:
 	void swapBuffers();
 	void pollEvents();
 	void processInput();
+
 private:
 	GLFWwindow* glfwWindow;
 

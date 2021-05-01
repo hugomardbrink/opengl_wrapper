@@ -19,5 +19,7 @@ class Renderer
 public:
 	void clear(glm::vec4 colour) const;
 	void draw(const VertexArray& VAO, const ElementBuffer& EBO, const Shader& shader) const;
+	void enableDepthBuffer();
+	void disableDepthBuffer();
 };
 

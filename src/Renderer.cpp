@@ -7,7 +7,7 @@
 void Renderer::clear(glm::vec4 colour) const
 {
 	glClearColor(colour.r, colour.g, colour.b, colour.a);  // Sets state and its colour
-	glClear(GL_COLOR_BUFFER_BIT);						   // Clears the colour buffer with states current colour
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    // Clears the colour buffer with states current colour
 }
 
 /**
@@ -23,6 +23,18 @@ void Renderer::draw(const VertexArray& VAO, const ElementBuffer& EBO, const Shad
 	shader.setUniform<float>("time", glfwGetTime());
 
 	VAO.bind();
-	glDrawElements(GL_TRIANGLES, EBO.getIndiceCount(), GL_UNSIGNED_INT, NULL);
+	//glDrawElements(GL_TRIANGLES, EBO.getIndiceCount(), GL_UNSIGNED_INT, NULL);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+}
+
+
+void Renderer::enableDepthBuffer()
+{
+	glEnable(GL_DEPTH_TEST);
+}
+
+void Renderer::disableDepthBuffer()
+{
+	glDisable(GL_DEPTH_TEST);
 }
 
