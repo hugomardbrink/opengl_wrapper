@@ -8,7 +8,7 @@ The project is a learning experience using different educational material found 
  
 # Build
 
-This project is built in [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) due to the simplicity.
+This project is built in [Visual Studio 2019](https://visualstudio.microsoft.com/vs/) and C++17 due to the simplicity.
 
 The following libraries are needed:
 
