@@ -14,6 +14,7 @@
 #include "Renderer.h"
 #include "Window.h"
 #include "Texture2D.h"
+#include "Camera.h"
 
 int32_t main()
 {
@@ -100,13 +101,15 @@ int32_t main()
     ElementBuffer EBO(indices, sizeof(indices));
 
     BufferLayout layout;
+
     /*
     layout.push<float>(3); // Vertices
     layout.push<float>(3); // Colors
     layout.push<float>(2); // Texture
     */
-    layout.push<float>(3);
-    layout.push<float>(2);
+
+    layout.push<float>(3); // Vertices
+    layout.push<float>(2); // Texture
 
 
 
@@ -122,17 +125,15 @@ int32_t main()
     islandTexture.bind(1);
 
 
+    Camera camera(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
-    glm::mat4 view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
 
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 
-
     shader.use();
-    shader.setUniform<glm::mat4>("view", view);
     shader.setUniform<glm::mat4>("projection", projection);
 
 
@@ -147,6 +148,12 @@ int32_t main()
         renderer.clear(glm::vec4{0.2f, 0.5f, 0.8f, 1.0f});
 
         
+		const float radius = 50.0f;
+        camera.setPosX(sin(glfwGetTime())* radius);
+        camera.setPosZ(cos(glfwGetTime())* radius);
+        glm::mat4 view = camera.getLookAt();
+        shader.setUniform<glm::mat4>("view", view);
+
 		for (uint32_t i = 0; i < 5; i++)
 		{
 			glm::mat4 model = glm::mat4(1.0f);
