@@ -16,6 +16,27 @@
 #include "Texture2D.h"
 #include "Camera.h"
 
+/**
+ * Processes inputs from the keyboard
+ * @note should be event triggers
+ */
+void processInput(GLFWwindow* glfwWindow)
+{
+    // Checks if escape key is pressed, then closes window
+    if (glfwGetKey(glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(glfwWindow, true);
+
+    if (glfwGetKey(glfwWindow, GLFW_KEY_Z) == GLFW_PRESS)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+    if (glfwGetKey(glfwWindow, GLFW_KEY_X) == GLFW_PRESS)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+
+
+
+
 int32_t main()
 {
     Window window;
@@ -141,7 +162,7 @@ int32_t main()
     while (!window.windowClosing())
     {
         /*  INPUTS  */
-        window.processInput();
+        processInput(window.getGlfwWindow());
 
         /*  RENDERING  */
 
@@ -173,3 +194,5 @@ int32_t main()
 
     return 0;           
 }
+
+
