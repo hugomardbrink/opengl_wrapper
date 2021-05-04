@@ -54,7 +54,7 @@
     <ClCompile Include="src\KeyInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MouseInput.cpp">
+    <ClCompile Include="src\MouseInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -95,7 +95,7 @@
     <ClInclude Include="src\KeyInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MouseInput.h">
+    <ClInclude Include="src\MouseInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
