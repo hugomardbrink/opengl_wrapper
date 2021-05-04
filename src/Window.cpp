@@ -62,7 +62,7 @@ int32_t Window::windowClosing() {
 /**
  * @return pointer to glfw window
  */
-GLFWwindow* Window::getGlfwWindow()
+GLFWwindow* Window::getGlfwWindow() const
 {
 	return glfwWindow;
 }

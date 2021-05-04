@@ -15,22 +15,52 @@
 #include "Window.h"
 #include "Texture2D.h"
 #include "Camera.h"
+#include "KeyInput.h"
+
+
+
+float deltaTime = 0.0f;	// Time between current frame and last frame
+float lastFrame = 0.0f; // Time of last frame
 
 /**
  * Processes inputs from the keyboard
  * @note should be event triggers
  */
-void processInput(GLFWwindow* glfwWindow)
+void processInput(KeyInput& keyInput, GLFWwindow* glfwWindow, Camera& camera)
 {
     // Checks if escape key is pressed, then closes window
-    if (glfwGetKey(glfwWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+    if (keyInput.isPressed(GLFW_KEY_ESCAPE))
         glfwSetWindowShouldClose(glfwWindow, true);
 
-    if (glfwGetKey(glfwWindow, GLFW_KEY_Z) == GLFW_PRESS)
+    if (keyInput.isPressed(GLFW_KEY_Z))
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    if (glfwGetKey(glfwWindow, GLFW_KEY_X) == GLFW_PRESS)
+    if (keyInput.isPressed(GLFW_KEY_X))
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+
+
+	float currentFrame = glfwGetTime();
+	deltaTime = currentFrame - lastFrame;
+	lastFrame = currentFrame;
+    
+    glm::vec3 cameraUp(0.0f, 0.1f, 0.0f);
+
+	const float cameraSpeed = 10.0f * deltaTime; // adjust accordingly
+    if (keyInput.isPressed(GLFW_KEY_W))
+        camera.moveAlongZ(cameraSpeed);
+    if (keyInput.isPressed(GLFW_KEY_S))
+        camera.moveAlongZ(-cameraSpeed);
+    if (keyInput.isPressed(GLFW_KEY_A))
+        camera.moveAlongX(-cameraSpeed);
+    if (keyInput.isPressed(GLFW_KEY_D))
+        camera.moveAlongX(cameraSpeed);
+    if (keyInput.isPressed(GLFW_KEY_SPACE))
+		camera.moveAlongY(cameraSpeed);
+    if (keyInput.isPressed(GLFW_KEY_LEFT_SHIFT))
+		camera.moveAlongY(-cameraSpeed);
+
+
 }
 
 
@@ -146,8 +176,8 @@ int32_t main()
     islandTexture.bind(1);
 
 
-    Camera camera(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f));
-
+    Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f));
+    KeyInput keyInput(window.getGlfwWindow());
 
 
     glm::mat4 projection = glm::mat4(1.0f);
@@ -162,16 +192,17 @@ int32_t main()
     while (!window.windowClosing())
     {
         /*  INPUTS  */
-        processInput(window.getGlfwWindow());
+        processInput(keyInput, window.getGlfwWindow(), camera);
 
         /*  RENDERING  */
 
-        renderer.clear(glm::vec4{0.2f, 0.5f, 0.8f, 1.0f});
+        renderer.clear(glm::vec4(0.2f, 0.5f, 0.8f, 1.0f));
 
-        
-		const float radius = 50.0f;
+        /*
+		const float radius = 20.0f;
         camera.setPosX(sin(glfwGetTime())* radius);
         camera.setPosZ(cos(glfwGetTime())* radius);
+        */
         glm::mat4 view = camera.getLookAt();
         shader.setUniform<glm::mat4>("view", view);
 
@@ -181,7 +212,7 @@ int32_t main()
 			model = glm::translate(model, cubePositions[i]);
             float angle = 40.0f * i;
             if (i % 2) model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(1.0f, 0.3f, 0.5f));
-            else model = glm::rotate(model, glm::radians(40.0f), glm::vec3(1.0f, 0.3f, 0.5f));
+            else model = glm::rotate(model, (float)-glfwGetTime(), glm::vec3(1.0f, 0.3f, 0.5f));
 			shader.setUniform<glm::mat4>("model", model);
             renderer.draw(VAO, EBO, shader);
 		}

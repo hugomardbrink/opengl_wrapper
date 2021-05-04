@@ -15,7 +15,7 @@ public:
 	Window();
 	~Window();
 	int32_t windowClosing();
-	GLFWwindow* getGlfwWindow();
+	GLFWwindow* getGlfwWindow() const;
 	void swapBuffers();
 	void pollEvents();
 
