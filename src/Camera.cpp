@@ -44,7 +44,27 @@ void Camera::moveAlongZ(float speed)
 	position += glm::normalize(front) * speed;
 }
 
+void Camera::rotateYaw(float angle)
+{
+
+}
+
+void Camera::rotatePitch(float angle)
+{
+
+}
+
+void Camera::rotateRoll(float angle)
+{
+
+}
+
 void Camera::setPosition(glm::vec3 newPosition)
 {
 	position = newPosition;
+}
+
+void Camera::setFront(glm::vec3 newFront)
+{
+	front = newFront;
 }

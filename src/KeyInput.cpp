@@ -10,5 +10,5 @@ KeyInput::~KeyInput()
 
 bool KeyInput::isPressed(int32_t pressedKey)
 {
-	return glfwGetKey(linkedWindow, pressedKey) == GLFW_PRESS;
+	return glfwGetKey(linkedWindow, pressedKey);
 }
