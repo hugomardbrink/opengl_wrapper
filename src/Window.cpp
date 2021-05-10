@@ -25,6 +25,7 @@ Window::Window()
 		std::cout << "ERROR::WINDOW::CREATION_FAILED" << std::endl;
 		glfwTerminate();
 	}
+	else std::cout << "Window succesfully created..." << std::endl;
 
 	// Create window on calling thread
 	glfwMakeContextCurrent(m_glfwWindow);
@@ -36,6 +37,8 @@ Window::Window()
 		std::cout << "ERROR::GLAD::INITIALIZATION_FAILED" << std::endl;
 		glfwTerminate();
 	}
+	else std::cout << "GLAD succesfully initialized..." << std::endl;
+
 
 	// Tells openGL the rendering dimensions, (0,0) is bottom left
 	glViewport(0, 0, width, height);

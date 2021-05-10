@@ -22,6 +22,8 @@ Texture2D::Texture2D(const std::string& imagePath)
 	// Loads image as uint8 array
 	data = stbi_load(imagePath.c_str(), &width, &height, &nrChannels, 0);
 
+	if (!data) std::cout << "ERROR::TEXTURE2D::IMAGE_FAILED_TO_LOAD" << std::endl;
+	else std::cout << "Texture at: " << imagePath << " successfully loaded..." << std::endl;
 
 	// Declares how the texture behaves
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); 
