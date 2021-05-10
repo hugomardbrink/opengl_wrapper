@@ -29,7 +29,7 @@ public:
 
 private:
 	// the program reference ID
-	uint32_t rendererID;
+	uint32_t m_rendererID;
 	uint32_t compileFragmentShader(const char* fragmentShaderSource);
 	uint32_t compileVertexShader(const char* vertexShaderSource);
 	void linkShaders(uint32_t vertexShaderID, uint32_t fragmentShaderID);

@@ -6,8 +6,8 @@
  * @param size The sice of the verice-array that gets loaded
  */
 VertexBuffer::VertexBuffer(const void* data, uint32_t size) {
-	glGenBuffers(1, &rendererID); 
-	glBindBuffer(GL_ARRAY_BUFFER, rendererID);
+	glGenBuffers(1, &m_rendererID); 
+	glBindBuffer(GL_ARRAY_BUFFER, m_rendererID);
 	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 }
 
@@ -15,14 +15,14 @@ VertexBuffer::VertexBuffer(const void* data, uint32_t size) {
  * Deallocates the GPU-resource		
  */
 VertexBuffer::~VertexBuffer() {
-	glDeleteBuffers(1, &rendererID);
+	glDeleteBuffers(1, &m_rendererID);
 }
 
 /**
  * Bind the vertex buffer to opengl current vertex buffer
  */
 void VertexBuffer::bind() const {
-	glBindBuffer(GL_ARRAY_BUFFER, rendererID); // Bind the vertex buffer to opengl
+	glBindBuffer(GL_ARRAY_BUFFER, m_rendererID); // Bind the vertex buffer to opengl
 }
 
 /**

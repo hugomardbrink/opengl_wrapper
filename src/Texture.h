@@ -13,6 +13,6 @@ class Texture
 public:
 	virtual void bind(uint32_t sampleSlot) = 0;
 protected:
-	uint32_t rendererID;
+	uint32_t m_rendererID;
 };
 

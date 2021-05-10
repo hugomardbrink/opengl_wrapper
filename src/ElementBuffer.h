@@ -14,7 +14,7 @@ public:
 	void unbind() const;
 	uint32_t getIndiceCount() const;
 private:
-	uint32_t rendererID;
-	uint32_t indiceCount;
+	uint32_t m_rendererID;
+	uint32_t m_indiceCount;
 };
 

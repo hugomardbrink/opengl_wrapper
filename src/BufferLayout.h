@@ -11,7 +11,7 @@
 struct BufferElement {
 	uint32_t type;
 	uint32_t count;
-	uint8_t normalized;
+	uint8_t  normalized;
 	uint32_t offset;
 };
 
@@ -27,7 +27,7 @@ public:
 	template <typename T> void push(uint32_t count);
 
 private:
-	std::vector<BufferElement> elements;
-	uint32_t stride;
+	std::vector<BufferElement> m_elements;
+	uint32_t m_stride;
 };
 

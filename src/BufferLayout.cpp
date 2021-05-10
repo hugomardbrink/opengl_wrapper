@@ -5,7 +5,7 @@
  * Creates empty object
  */
 BufferLayout::BufferLayout() : 
-stride(0) {}
+m_stride(0) {}
 
 /**
  * Catch all types not supported and throws error, should never be used
@@ -23,8 +23,8 @@ template <typename T> void BufferLayout::push(uint32_t count)
  */
 template<> void BufferLayout::push<float>(uint32_t count) 
 {
-	elements.push_back({ GL_FLOAT, count, GL_FALSE, stride * sizeof(GL_FLOAT) });
-	stride += count;
+	m_elements.push_back({ GL_FLOAT, count, GL_FALSE, m_stride * sizeof(GL_FLOAT) });
+	m_stride += count;
 }
 
 /**
@@ -33,8 +33,8 @@ template<> void BufferLayout::push<float>(uint32_t count)
  */
 template<> void BufferLayout::push<uint32_t>(uint32_t count) 
 {
-	elements.push_back({ GL_UNSIGNED_INT, count, GL_FALSE, stride * sizeof(GL_UNSIGNED_INT) });
-	stride += count;
+	m_elements.push_back({ GL_UNSIGNED_INT, count, GL_FALSE, m_stride * sizeof(GL_UNSIGNED_INT) });
+	m_stride += count;
 }
 
 /**
@@ -43,8 +43,8 @@ template<> void BufferLayout::push<uint32_t>(uint32_t count)
  */
 template<> void BufferLayout::push<uint8_t>(uint32_t count) 
 {
-	elements.push_back({ GL_UNSIGNED_BYTE, count, GL_TRUE, stride * sizeof(GL_UNSIGNED_BYTE) });
-	stride += count;
+	m_elements.push_back({ GL_UNSIGNED_BYTE, count, GL_TRUE, m_stride * sizeof(GL_UNSIGNED_BYTE) });
+	m_stride += count;
 }
 
 /**
@@ -52,7 +52,7 @@ template<> void BufferLayout::push<uint8_t>(uint32_t count)
  */
 uint32_t BufferLayout::getStride() const 
 {
-	return stride;
+	return m_stride;
 }
 
 /**
@@ -60,5 +60,5 @@ uint32_t BufferLayout::getStride() const
  */
 std::vector<BufferElement> BufferLayout::getElements() const
 {
-	return elements;
+	return m_elements;
 }

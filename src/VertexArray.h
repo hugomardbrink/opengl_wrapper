@@ -17,7 +17,7 @@ public:
 	void bind() const;
 	void unbind() const;
 private:
-	uint32_t rendererID;
+	uint32_t m_rendererID;
 
 };
 

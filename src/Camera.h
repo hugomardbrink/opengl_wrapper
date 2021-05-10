@@ -7,7 +7,7 @@
 class Camera
 {
 public:
-	Camera(glm::vec3 cameraPosition, glm::vec3 cameraTarget);
+	Camera(glm::vec3 position, glm::vec3 front);
 	~Camera();
 
 	glm::mat4 getLookAt() const;
@@ -26,8 +26,8 @@ public:
 	void setFront(glm::vec3 newFront);
 
 private:
-	glm::vec3 position;
-	glm::vec3 front;
+	glm::vec3 m_position;
+	glm::vec3 m_front;
 
 
 };

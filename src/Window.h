@@ -20,7 +20,7 @@ public:
 	void pollEvents();
 
 private:
-	GLFWwindow* glfwWindow;
+	GLFWwindow* m_glfwWindow;
 
 	static constexpr uint8_t majorVer = 3;
 	static constexpr uint8_t minorVer = 3;

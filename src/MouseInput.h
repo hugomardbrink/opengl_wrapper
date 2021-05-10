@@ -11,13 +11,13 @@
 class MouseInput
 {
 public:
-	MouseInput(GLFWwindow* window, glm::vec2 startPosition);
+	MouseInput(GLFWwindow* linkedWindow, glm::vec2 position);
 	~MouseInput();
 	void enableCursor();
 	void disableCursor();
 	glm::vec2 getPosition();
 private:
-	GLFWwindow* linkedWindow;
-	glm::vec2 position;
+	GLFWwindow* m_linkedWindow;
+	glm::vec2 m_position;
 };
 
