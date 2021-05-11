@@ -73,31 +73,19 @@ void Camera::moveAlongZ(float speed)
 }
 
 /**
- * Rotates the camera along the yaw-rotation
- * @param The angle to rotate in radians
+ * Rotates the camera 
+ * @param pitch The pitch rotation
+ * @param yaw The yaw rotation
+ * @param roll The roll rotation
  */
-void Camera::rotateYaw(float angle)
+void Camera::rotate(float pitch, float yaw, float roll)
 {
-
+	m_front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	m_front.y = sin(glm::radians(pitch));
+	m_front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+	m_front = glm::normalize(m_front);
 }
 
-/**
- * Rotates the camera along the pitch-rotation
- * @param The angle to rotate in radians
- */
-void Camera::rotatePitch(float angle)
-{
-
-}
-
-/**
- * Rotates the camera along the roll-rotation
- * @param The angle to rotate in radians
- */
-void Camera::rotateRoll(float angle)
-{
-
-}
 
 /**
  * @param position The new position of the camera

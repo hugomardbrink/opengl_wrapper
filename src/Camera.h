@@ -20,9 +20,7 @@ public:
 	void moveAlongX(float speed);
 	void moveAlongY(float speed);
 	void moveAlongZ(float speed);
-	void rotateYaw(float angle);
-	void rotatePitch(float angle);
-	void rotateRoll(float angle);
+	void rotate(float pitch, float yaw, float roll);
 
 
 	void setPosition(glm::vec3 newPosition);

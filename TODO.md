@@ -6,4 +6,5 @@
 - Integrate key and mouse input in window class?
 - Maybe use mouse callbacks?
 - Make input singleton
+- Implement roll rotation
 - Resolve @note issues
