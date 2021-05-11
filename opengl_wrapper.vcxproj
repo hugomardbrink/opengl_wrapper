@@ -147,7 +147,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\MouseInput.cpp" />
-    <ClCompile Include="src\MouseInput.cpp" />
     <ClCompile Include="src\KeyInput.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\BufferLayout.cpp" />
@@ -163,7 +162,6 @@
     <ClCompile Include="src\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\MouseInput.h" />
     <ClInclude Include="src\MouseInput.h" />
     <ClInclude Include="src\KeyInput.h" />
     <ClInclude Include="src\Camera.h" />
