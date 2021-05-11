@@ -15,8 +15,7 @@
 #include "Window.h"
 #include "Texture2D.h"
 #include "Camera.h"
-#include "KeyInput.h"
-#include "MouseInput.h"
+#include "input.h"
 
 
 
@@ -32,16 +31,16 @@ glm::vec3 eulerAngles(0.0f, -89.0f, 0.0f);
  * Processes inputs from the keyboard
  * @note should be event triggers
  */
-void processInput(KeyInput& keyInput, GLFWwindow* glfwWindow, Camera& camera)
+void processInput(Input& input, GLFWwindow* glfwWindow, Camera& camera)
 {
     // Checks if escape key is pressed, then closes window
-    if (keyInput.isPressed(GLFW_KEY_ESCAPE))
+    if (input.isKeyPressed(glfwWindow, GLFW_KEY_ESCAPE))
         glfwSetWindowShouldClose(glfwWindow, true);
 
-    if (keyInput.isPressed(GLFW_KEY_Z))
+    if (input.isKeyPressed(glfwWindow, GLFW_KEY_Z))
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    if (keyInput.isPressed(GLFW_KEY_X))
+    if (input.isKeyPressed(glfwWindow, GLFW_KEY_X))
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 
@@ -53,17 +52,17 @@ void processInput(KeyInput& keyInput, GLFWwindow* glfwWindow, Camera& camera)
     glm::vec3 cameraUp(0.0f, 0.1f, 0.0f);
 
 	const float cameraSpeed = 10.0f * deltaTime; // adjust accordingly
-    if (keyInput.isPressed(GLFW_KEY_W))
+    if (input.isKeyPressed(glfwWindow, GLFW_KEY_W))
         camera.moveAlongZ(cameraSpeed);
-    if (keyInput.isPressed(GLFW_KEY_S))
+    if (input.isKeyPressed(glfwWindow, GLFW_KEY_S))
         camera.moveAlongZ(-cameraSpeed);
-    if (keyInput.isPressed(GLFW_KEY_A))
+    if (input.isKeyPressed(glfwWindow, GLFW_KEY_A))
         camera.moveAlongX(-cameraSpeed);
-    if (keyInput.isPressed(GLFW_KEY_D))
+    if (input.isKeyPressed(glfwWindow, GLFW_KEY_D))
         camera.moveAlongX(cameraSpeed);
-    if (keyInput.isPressed(GLFW_KEY_SPACE))
+    if (input.isKeyPressed(glfwWindow, GLFW_KEY_SPACE))
 		camera.moveAlongY(cameraSpeed);
-    if (keyInput.isPressed(GLFW_KEY_LEFT_SHIFT))
+    if (input.isKeyPressed(glfwWindow, GLFW_KEY_LEFT_SHIFT))
 		camera.moveAlongY(-cameraSpeed);
 
 
@@ -71,13 +70,14 @@ void processInput(KeyInput& keyInput, GLFWwindow* glfwWindow, Camera& camera)
 
 }
 
-void mouse_callback(GLFWwindow* window, double x, double y)
+void mouse_input(Window& window, Input& input)
 {
+    glm::vec2 cursorPosition = input.getMousePosition(window.getGlfwWindow());
 
-	float xoffset = x - lastX;
-	float yoffset = lastY - y; // reversed since y-coordinates range from bottom to top
-	lastX = x;
-	lastY = y;
+	float xoffset = cursorPosition.x - lastX;
+	float yoffset = lastY - cursorPosition.y; // reversed since y-coordinates range from bottom to top
+	lastX = cursorPosition.x;
+	lastY = cursorPosition.y;
 
 	const float sensitivity = 0.1f;
 	xoffset *= sensitivity;
@@ -104,6 +104,7 @@ int32_t main()
 {
     Window window;
 	Renderer renderer;
+    Input input;
 
     // Vertices for rectangles: position, colour and texture position
     /*float vertices[] =
@@ -210,7 +211,6 @@ int32_t main()
 
 
     Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f));
-    KeyInput keyInput(window.getGlfwWindow());
 
 
     glm::mat4 projection = glm::mat4(1.0f);
@@ -220,32 +220,21 @@ int32_t main()
     shader.setUniform<glm::mat4>("projection", projection);
 
 
-    MouseInput mouseInput(window.getGlfwWindow(), glm::vec2(400, 300));
-
-    mouseInput.disableCursor();
-    
-
-	glfwSetCursorPosCallback(window.getGlfwWindow(), mouse_callback);
-
-
-    
+    input.disableCursor(window.getGlfwWindow());
+   
 
     renderer.enableDepthTesting();
     while (!window.windowClosing())
     {
         /*  INPUTS  */
-        processInput(keyInput, window.getGlfwWindow(), camera);
-
+        processInput(input, window.getGlfwWindow(), camera);
+        mouse_input(window, input);
 
         /*  RENDERING  */
 
         renderer.clear(glm::vec4(0.2f, 0.5f, 0.8f, 1.0f));
 
-        /*
-		const float radius = 20.0f;
-        camera.setPosX(sin(glfwGetTime())* radius);
-        camera.setPosZ(cos(glfwGetTime())* radius);
-        */
+
         camera.setFront(glm::normalize(direction));
 
         glm::mat4 view = camera.getLookAt();

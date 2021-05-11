@@ -12,7 +12,10 @@ bool Input::isMouseButtonPressed(void* targetWindow, uint32_t buttonCode)
 
 glm::vec2 Input::getMousePosition(void* targetWindow)
 {
+	double x, y;
+	glfwGetCursorPos(static_cast<GLFWwindow*>(targetWindow), &x, &y);
 
+	return glm::vec2((float)x, (float)y);
 }
 
 void Input::enableCursor(void* targetWindow)
