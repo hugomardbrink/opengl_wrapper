@@ -182,16 +182,13 @@ int32_t main()
     Shader shader("./shaders/VertexShader.vert", "./shaders/FragmentShader.frag");
 
     VertexArray VAO;
-    VertexBuffer VBO(vertices, sizeof(vertices));
+	VertexBuffer VBO(vertices, sizeof(vertices));
+	BufferLayout layout;
+
     ElementBuffer EBO(indices, sizeof(indices));
 
-    BufferLayout layout;
 
-    /*
-    layout.push<float>(3); // Vertices
-    layout.push<float>(3); // Colors
-    layout.push<float>(2); // Texture
-    */
+
 
     layout.push<float>(3); // Vertices
     layout.push<float>(2); // Texture
