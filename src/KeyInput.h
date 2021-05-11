@@ -8,11 +8,11 @@
 class KeyInput
 {
 public:
-	KeyInput(GLFWwindow* window);
+	KeyInput(GLFWwindow* linkedWindow);
 	~KeyInput();
-	bool isPressed(int32_t pressedKey);
+	bool isPressed(int32_t key);
 
 private:
-	GLFWwindow* linkedWindow;
+	GLFWwindow* m_linkedWindow;
 };
 

@@ -54,7 +54,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
  */
 Shader::~Shader() 
 {
-	glDeleteProgram(rendererID);
+	glDeleteProgram(m_rendererID);
 }
 
 /**
@@ -100,7 +100,7 @@ uint32_t Shader::compileVertexShader(const char* vertexSourceCode)
  */
 void Shader::use() const
 {
-	glUseProgram(rendererID);
+	glUseProgram(m_rendererID);
 }
 
 /**
@@ -128,11 +128,11 @@ void Shader::logLinkingStatus()
 	int32_t success;
 	char infoLog[512];
 
-	glGetProgramiv(rendererID, GL_LINK_STATUS, &success);
+	glGetProgramiv(m_rendererID, GL_LINK_STATUS, &success);
 
 	if (!success)
 	{ 
-		glGetShaderInfoLog(rendererID, 512, NULL, infoLog);
+		glGetShaderInfoLog(m_rendererID, 512, NULL, infoLog);
 		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED" << infoLog << std::endl;
 	}
 	else std::cout << "Shaders linked successfully..." << std::endl;
@@ -147,14 +147,14 @@ void Shader::logLinkingStatus()
 void Shader::linkShaders(uint32_t vertexShaderID, uint32_t fragmentShaderID) 
 {
 	// Allocates GPU-Resource for shader
-	rendererID = glCreateProgram();
+	m_rendererID = glCreateProgram();
 
 	// Attach vertex and fragment shaders
-	glAttachShader(rendererID, vertexShaderID);
-	glAttachShader(rendererID, fragmentShaderID);
+	glAttachShader(m_rendererID, vertexShaderID);
+	glAttachShader(m_rendererID, fragmentShaderID);
 
 	// Links attached shaders to program
-	glLinkProgram(rendererID);
+	glLinkProgram(m_rendererID);
 	logLinkingStatus();
 
 	// Free up GPU-Resource
@@ -180,7 +180,7 @@ template <typename T> void Shader::setUniform(const std::string& name, T value) 
  */
 template <> void Shader::setUniform<bool>(const std::string& name, bool value) const
 {
-	glUniform1i(glGetUniformLocation(rendererID, name.c_str()), value);
+	glUniform1i(glGetUniformLocation(m_rendererID, name.c_str()), value);
 }
 
 /**
@@ -190,7 +190,7 @@ template <> void Shader::setUniform<bool>(const std::string& name, bool value) c
  */
 template <> void Shader::setUniform<int>(const std::string& name, int value) const
 {
-	glUniform1i(glGetUniformLocation(rendererID, name.c_str()), value);
+	glUniform1i(glGetUniformLocation(m_rendererID, name.c_str()), value);
 }
 
 /**
@@ -200,7 +200,7 @@ template <> void Shader::setUniform<int>(const std::string& name, int value) con
  */
 template <> void Shader::setUniform<float>(const std::string& name, float value) const
 {
-	glUniform1f(glGetUniformLocation(rendererID, name.c_str()), value);
+	glUniform1f(glGetUniformLocation(m_rendererID, name.c_str()), value);
 }
 
 /**
@@ -210,7 +210,7 @@ template <> void Shader::setUniform<float>(const std::string& name, float value)
  */
 template <> void Shader::setUniform<glm::mat4>(const std::string& name, glm::mat4 value) const
 {
-	glUniformMatrix4fv(glGetUniformLocation(rendererID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+	glUniformMatrix4fv(glGetUniformLocation(m_rendererID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
 }
 
 /**
@@ -218,5 +218,5 @@ template <> void Shader::setUniform<glm::mat4>(const std::string& name, glm::mat
  */
 uint32_t Shader::getRendererID() 
 {
-	return rendererID;
+	return m_rendererID;
 }

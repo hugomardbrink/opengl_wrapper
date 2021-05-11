@@ -16,11 +16,17 @@
 #include "Texture2D.h"
 #include "Camera.h"
 #include "KeyInput.h"
+#include "MouseInput.h"
 
 
 
 float deltaTime = 0.0f;	// Time between current frame and last frame
 float lastFrame = 0.0f; // Time of last frame
+
+float lastX = 400, lastY = 300;
+
+glm::vec3 direction;
+glm::vec3 eulerAngles(0.0f, -89.0f, 0.0f);
 
 /**
  * Processes inputs from the keyboard
@@ -61,11 +67,38 @@ void processInput(KeyInput& keyInput, GLFWwindow* glfwWindow, Camera& camera)
 		camera.moveAlongY(-cameraSpeed);
 
 
+
+
 }
 
+void mouse_callback(GLFWwindow* window, double x, double y)
+{
+
+	float xoffset = x - lastX;
+	float yoffset = lastY - y; // reversed since y-coordinates range from bottom to top
+	lastX = x;
+	lastY = y;
+
+	const float sensitivity = 0.1f;
+	xoffset *= sensitivity;
+	yoffset *= sensitivity;
 
 
+	eulerAngles.y += xoffset;
+	eulerAngles.x += yoffset;
 
+
+	if (eulerAngles.x > 89.0f)
+        eulerAngles.x = 89.0f;
+	if (eulerAngles.x < -89.0f)
+        eulerAngles.x = -89.0f;
+
+
+	direction.x = cos(glm::radians(eulerAngles.y)) * cos(glm::radians(eulerAngles.x));
+	direction.y = sin(glm::radians(eulerAngles.x));
+	direction.z = sin(glm::radians(eulerAngles.y)) * cos(glm::radians(eulerAngles.x));
+
+}
 
 int32_t main()
 {
@@ -183,16 +216,26 @@ int32_t main()
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
-
     shader.use();
     shader.setUniform<glm::mat4>("projection", projection);
 
+
+    MouseInput mouseInput(window.getGlfwWindow(), glm::vec2(400, 300));
+
+    mouseInput.disableCursor();
+    
+
+	glfwSetCursorPosCallback(window.getGlfwWindow(), mouse_callback);
+
+
+    
 
     renderer.enableDepthTesting();
     while (!window.windowClosing())
     {
         /*  INPUTS  */
         processInput(keyInput, window.getGlfwWindow(), camera);
+
 
         /*  RENDERING  */
 
@@ -203,6 +246,8 @@ int32_t main()
         camera.setPosX(sin(glfwGetTime())* radius);
         camera.setPosZ(cos(glfwGetTime())* radius);
         */
+        camera.setFront(glm::normalize(direction));
+
         glm::mat4 view = camera.getLookAt();
         shader.setUniform<glm::mat4>("view", view);
 

@@ -22,6 +22,8 @@ Texture2D::Texture2D(const std::string& imagePath)
 	// Loads image as uint8 array
 	data = stbi_load(imagePath.c_str(), &width, &height, &nrChannels, 0);
 
+	if (!data) std::cout << "ERROR::TEXTURE2D::IMAGE_FAILED_TO_LOAD" << std::endl;
+	else std::cout << "Texture at: " << imagePath << " successfully loaded..." << std::endl;
 
 	// Declares how the texture behaves
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); 
@@ -30,8 +32,8 @@ Texture2D::Texture2D(const std::string& imagePath)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 
-	glGenTextures(1, &rendererID);
-	glBindTexture(GL_TEXTURE_2D, rendererID);
+	glGenTextures(1, &m_rendererID);
+	glBindTexture(GL_TEXTURE_2D, m_rendererID);
 
 
 	glTexImage2D(GL_TEXTURE_2D, 0, colourFormat, width, height, 0, colourFormat, GL_UNSIGNED_BYTE, data);
@@ -47,7 +49,7 @@ Texture2D::Texture2D(const std::string& imagePath)
  */
 Texture2D::~Texture2D()
 {
-	glDeleteTextures(1, &rendererID);
+	glDeleteTextures(1, &m_rendererID);
 }
 
 /**
@@ -57,5 +59,5 @@ Texture2D::~Texture2D()
 void Texture2D::bind(uint32_t sampleSlot)
 {
 	glActiveTexture(GL_TEXTURE0 + sampleSlot);
-	glBindTexture(GL_TEXTURE_2D, rendererID);
+	glBindTexture(GL_TEXTURE_2D, m_rendererID);
 }

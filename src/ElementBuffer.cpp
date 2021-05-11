@@ -7,10 +7,10 @@
  */
 ElementBuffer::ElementBuffer(const uint32_t* data, uint32_t size) 
 {
-	glGenBuffers(1, &rendererID); 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererID);  
+	glGenBuffers(1, &m_rendererID); 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererID);  
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW); 
-	indiceCount = size / sizeof(uint32_t);
+	m_indiceCount = size / sizeof(uint32_t);
 }
 
 /**
@@ -18,7 +18,7 @@ ElementBuffer::ElementBuffer(const uint32_t* data, uint32_t size)
  */
 ElementBuffer::~ElementBuffer()
 {
-	glDeleteBuffers(1, &rendererID);
+	glDeleteBuffers(1, &m_rendererID);
 }
 
 /**
@@ -26,7 +26,7 @@ ElementBuffer::~ElementBuffer()
  */
 void ElementBuffer::bind() const 
 {
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererID); // Bind the vertex buffer to opengl
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_rendererID); // Bind the vertex buffer to opengl
 }
 
  /**
@@ -42,5 +42,5 @@ void ElementBuffer::unbind() const
  */
 uint32_t ElementBuffer::getIndiceCount() const
 {
-	return indiceCount;
+	return m_indiceCount;
 }

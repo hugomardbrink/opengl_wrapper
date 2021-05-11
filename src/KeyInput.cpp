@@ -1,14 +1,14 @@
 #include "KeyInput.h"
 
-KeyInput::KeyInput(GLFWwindow* window) : 
-linkedWindow(window){}
+KeyInput::KeyInput(GLFWwindow* linkedWindow) : 
+m_linkedWindow(linkedWindow){}
 
 KeyInput::~KeyInput()
 {
 
 }
 
-bool KeyInput::isPressed(int32_t pressedKey)
+bool KeyInput::isPressed(int32_t key)
 {
-	return glfwGetKey(linkedWindow, pressedKey) == GLFW_PRESS;
+	return glfwGetKey(m_linkedWindow, key);
 }
