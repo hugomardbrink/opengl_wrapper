@@ -9,7 +9,9 @@
 #include <glm/gtc/type_ptr.hpp>
 
 
-
+/**
+ * Handles input from keyboard and mouse
+ */
 class Input
 {
 public: 

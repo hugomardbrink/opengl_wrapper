@@ -106,15 +106,6 @@ int32_t main()
 	Renderer renderer;
     Input input;
 
-    // Vertices for rectangles: position, colour and texture position
-    /*float vertices[] =
-    {    // Position            // Colour            // Texture Position
-         0.5f,  0.5f, 0.0f,     1.0f, 0.0f, 0.0f,    1.0f, 1.0f, // top right
-         0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 0.0f,    1.0f, 0.0f, // bottom right
-        -0.5f, -0.5f, 0.0f,     0.0f, 0.0f, 1.0f,    0.0f, 0.0f, // bottom left
-        -0.5f,  0.5f, 0.0f,     1.0f, 1.0f, 0.0f,    0.0f, 1.0f  // top left
-    }; */
-
 
 	float vertices[] = 
     {
@@ -207,7 +198,7 @@ int32_t main()
     islandTexture.bind(1);
 
 
-    Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f));
+    Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, 0.0f));
 
 
     glm::mat4 projection = glm::mat4(1.0f);

@@ -4,6 +4,9 @@
 #include <glm/gtc/type_ptr.hpp>
 
 
+/**
+ * Handles the camera that views the "scene", a view matrix in actuality
+ */
 class Camera
 {
 public:
