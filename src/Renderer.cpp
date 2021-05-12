@@ -22,8 +22,6 @@ void Renderer::draw(const VertexArray& VAO, const ElementBuffer& EBO, const Shad
 {
 	shader.use();
 
-	shader.setUniform<float>("time", glfwGetTime());
-
 	VAO.bind();
 	//glDrawElements(GL_TRIANGLES, EBO.getIndiceCount(), GL_UNSIGNED_INT, NULL);
 

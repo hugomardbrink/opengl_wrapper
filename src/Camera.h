@@ -22,8 +22,8 @@ public:
 	void moveAlongZ(float speed);
 	void rotate(float pitch, float yaw, float roll);
 
-	void setPosition(glm::vec3 newPosition);
-	void setFront(glm::vec3 newFront);
+	void setPosition(glm::vec3 position);
+	void setFront(glm::vec3 front);
 
 private:
 	glm::vec3 m_position;

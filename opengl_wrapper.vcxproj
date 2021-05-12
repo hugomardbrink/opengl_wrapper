@@ -179,6 +179,7 @@
     <None Include=".gitignore" />
     <None Include="README.md" />
     <None Include="shaders\FragmentShader.frag" />
+    <None Include="shaders\LightSourceShader.frag" />
     <None Include="shaders\VertexShader.vert" />
     <None Include="TODO.md" />
   </ItemGroup>

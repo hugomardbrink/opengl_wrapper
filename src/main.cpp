@@ -154,10 +154,7 @@ int32_t main()
     glm::vec3 cubePositions[] =
     {
        glm::vec3(0.0f, 0.0f, 0.0f),
-	   glm::vec3(-1.7f,  3.0f, -7.5f),
-       glm::vec3(2.8f, 2.0f, -7.0f),
-       glm::vec3(2.4f, -0.4f, -3.5f),
-       glm::vec3(-1.3f, -1.5f, -2.5f),
+	   glm::vec3(-1.0f,  2.0f, -2.5f),
     };
 
 
@@ -168,7 +165,8 @@ int32_t main()
         1, 2, 3    // second triangle
     };
 
-    Shader shader("./shaders/VertexShader.vert", "./shaders/FragmentShader.frag");
+    Shader cubeShader("./shaders/VertexShader.vert", "./shaders/FragmentShader.frag");
+    Shader lightingShader("./shaders/VertexShader.vert", "./shaders/LightSourceShader.frag");
 
     VertexArray VAO;
 	VertexBuffer VBO(vertices, sizeof(vertices));
@@ -189,25 +187,45 @@ int32_t main()
     Texture2D oceanTexture("./assets/textures/ocean_texture.jpg");
     Texture2D islandTexture("./assets/textures/island_texture.png");
 
-    shader.use();
-    shader.setUniform<int>("oceanTexture", 0);
+    cubeShader.use();
+    cubeShader.setUniform<int>("oceanTexture", 0);
     oceanTexture.bind(0);
-    shader.setUniform<int>("islandTexture", 1);
+    cubeShader.setUniform<int>("islandTexture", 1);
     islandTexture.bind(1);
 
 
-    Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+	lightingShader.use();
+    lightingShader.setUniform<int>("oceanTexture", 0);
+	oceanTexture.bind(0);
+    lightingShader.setUniform<int>("islandTexture", 1);
+	islandTexture.bind(1);
+
+
+    Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f));
 
 
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
-    shader.use();
-    shader.setUniform<glm::mat4>("projection", projection);
+    cubeShader.use();
+    cubeShader.setUniform<glm::mat4>("projection", projection);
 
+    lightingShader.use();
+    lightingShader.setUniform<glm::mat4>("projection", projection);
 
     input.disableCursor(window.getGlfwWindow());
    
+
+
+    glm::vec3 lightColour(1.0f, 1.0f, 1.0f);
+    glm::vec3 objectColour(1.0f, 0.5f, 0.31f);
+
+
+
+    cubeShader.use();
+    cubeShader.setUniform<glm::vec3>("lightColour", lightColour);
+    cubeShader.setUniform<glm::vec3>("objectColour", objectColour);
+
 
     renderer.enableDepthTesting();
     while (!window.windowClosing())
@@ -218,21 +236,33 @@ int32_t main()
 
         /*  RENDERING  */
 
-        renderer.clear(glm::vec4(0.2f, 0.5f, 0.8f, 1.0f));
+        renderer.clear(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
         glm::mat4 view = camera.getLookAt();
-        shader.setUniform<glm::mat4>("view", view);
+        glm::mat4 model;
 
-		for (uint32_t i = 0; i < 5; i++)
-		{
-			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePositions[i]);
-            float angle = 40.0f * i;
-            if (i % 2) model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(1.0f, 0.3f, 0.5f));
-            else model = glm::rotate(model, (float)-glfwGetTime(), glm::vec3(1.0f, 0.3f, 0.5f));
-			shader.setUniform<glm::mat4>("model", model);
-            renderer.draw(VAO, EBO, shader);
-		}
+		lightingShader.use();
+
+		lightingShader.setUniform<glm::mat4>("view", view);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, cubePositions[1]);
+		lightingShader.setUniform<glm::mat4>("model", model);
+		renderer.draw(VAO, EBO, lightingShader);
+
+
+
+        cubeShader.use();
+
+        cubeShader.setUniform<glm::mat4>("view", view);
+
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, cubePositions[0]);
+        model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+        cubeShader.setUniform<glm::mat4>("model", model);
+        renderer.draw(VAO, EBO, cubeShader);
+
+
 
         /*  CHECK EVENTS AND SWAP BUFFER  */
 

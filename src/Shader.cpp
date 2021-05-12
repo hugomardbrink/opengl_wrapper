@@ -214,6 +214,18 @@ template <> void Shader::setUniform<glm::mat4>(const std::string& name, glm::mat
 }
 
 /**
+ * Sets uniform for 3D vectors uniforms
+ * @param name The name of the uniform var in the shader
+ * @param value The value assigned to the uniform
+ */
+template <> void Shader::setUniform<glm::vec3>(const std::string& name, glm::vec3 value) const
+{
+	glUniform3fv(glGetUniformLocation(m_rendererID, name.c_str()), 1, glm::value_ptr(value));
+}
+
+
+
+/**
  * @return the opengl reference ID
  */
 uint32_t Shader::getRendererID() 
