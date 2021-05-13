@@ -219,9 +219,10 @@ int32_t main()
 
 
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3{lightX, -1.0f, lightZ});
+		model = glm::translate(model, cubePositions[0]);
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 		objectShader.setUniform<glm::mat4>("model", model);
+		objectShader.setUniform<glm::vec3>("viewPos", camera.getPosition());
 		renderer.draw(objectVAO, objectShader);
 
 

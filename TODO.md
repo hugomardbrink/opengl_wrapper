@@ -7,4 +7,6 @@
 - Maybe use mouse callbacks?
 - Make input singleton
 - Implement roll rotation
+- Support Gouraud shading 
+- Remove inverse functions from shaders
 - Resolve @note issues
