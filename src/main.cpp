@@ -154,12 +154,12 @@ int32_t main()
     glm::vec3 cubePositions[] =
     {
        glm::vec3(0.0f, 0.0f, 0.0f),
-	   glm::vec3(-1.0f,  2.0f, -2.5f),
+	   glm::vec3(-3.0f,  2.0f, -2.5f),
     };
 
 
-    Shader cubeShader("./shaders/VertexShader.vert", "./shaders/FragmentShader.frag");
-    Shader lightingShader("./shaders/VertexShader.vert", "./shaders/LightSourceShader.frag");
+    Shader objectShader("./shaders/ObjectVertex.vert", "./shaders/ObjectFrag.frag");
+    Shader lightSourceShader("./shaders/LightSourceVertex.vert", "./shaders/LightSourceFrag.frag");
 
     VertexArray objectVAO, lightVAO;
 	VertexBuffer VBO(vertices, sizeof(vertices));
@@ -181,11 +181,12 @@ int32_t main()
     glm::vec3 objectColour(1.0f, 0.5f, 0.31f);
 
 
-    cubeShader.use();
-    cubeShader.setUniform<glm::mat4>("projection", projection);
-    cubeShader.setUniform<glm::vec3>("objectColour", objectColour);
-    lightingShader.use();
-    lightingShader.setUniform<glm::mat4>("projection", projection);
+    objectShader.use();
+	objectShader.setUniform<glm::mat4>("projection", projection);
+	objectShader.setUniform<glm::vec3>("objectColour", objectColour);
+	objectShader.setUniform<glm::vec3>("lightPos", cubePositions[1]);
+	lightSourceShader.use();
+	lightSourceShader.setUniform<glm::mat4>("projection", projection);
 
 
  
@@ -203,31 +204,36 @@ int32_t main()
         renderer.clear(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
         glm::mat4 view = camera.getLookAt();
-        lightColour = glm::vec3(1.0f, 1.0f, 1.0f) * (float) sin(glfwGetTime());
+		lightColour = glm::vec3(1.0f, 1.0f, 1.0f);
 
 
 
 
-		cubeShader.use();
-		cubeShader.setUniform<glm::vec3>("lightColour", lightColour);
-		cubeShader.setUniform<glm::mat4>("view", view);
+		objectShader.use();
+		objectShader.setUniform<glm::vec3>("lightColour", lightColour);
+		objectShader.setUniform<glm::mat4>("view", view);
+
+		const float radius = 10.0f;
+		float lightX = sin(glfwGetTime()) * radius;
+		float lightZ = cos(glfwGetTime()) * radius;
+
 
 		model = glm::mat4(1.0f);
-		model = glm::translate(model, cubePositions[0]);
+		model = glm::translate(model, glm::vec3{lightX, -1.0f, lightZ});
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-		cubeShader.setUniform<glm::mat4>("model", model);
-		renderer.draw(objectVAO, cubeShader);
+		objectShader.setUniform<glm::mat4>("model", model);
+		renderer.draw(objectVAO, objectShader);
 
 
 
-		lightingShader.use();
-		lightingShader.setUniform<glm::vec3>("lightColour", lightColour);
-		lightingShader.setUniform<glm::mat4>("view", view);
+		lightSourceShader.use();
+		lightSourceShader.setUniform<glm::vec3>("lightColour", lightColour);
+		lightSourceShader.setUniform<glm::mat4>("view", view);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, cubePositions[1]);
-		lightingShader.setUniform<glm::mat4>("model", model);
-		renderer.draw(lightVAO, lightingShader);
+		lightSourceShader.setUniform<glm::mat4>("model", model);
+		renderer.draw(lightVAO, lightSourceShader);
 
 
 

@@ -1,6 +1,4 @@
 #version 330 core
-in vec3 Normal;
-
 //uniform sampler2D oceanTexture;
 //uniform sampler2D islandTexture;
 
