@@ -14,11 +14,10 @@ void Renderer::clear(glm::vec4 colour) const
 /**
  * Draws the window each frame
  * @param VAO The vertex array with bound vertex buffer and strife-layour
- * @param EBO The element buffer used for checking indices
  * @param shader The shader used when drawing said vertices
  * @note should element buffer really be here?
  */
-void Renderer::draw(const VertexArray& VAO, const ElementBuffer& EBO, const Shader& shader) const
+void Renderer::draw(const VertexArray& VAO, const Shader& shader) const
 {
 	shader.use();
 

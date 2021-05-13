@@ -1,14 +1,15 @@
 #version 330 core
+in vec3 Normal;
 
-in vec2 TexCoord;
 //uniform sampler2D oceanTexture;
 //uniform sampler2D islandTexture;
 
+uniform vec3 lightColour;
 
 out vec4 FragColor; 
 
   
 void main() 
 {
-    FragColor = vec4(1.0);
+    FragColor = vec4(lightColour, 1.0);
 }

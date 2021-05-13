@@ -1,5 +1,6 @@
 #version 330 core
-in vec2 TexCoord;
+in vec3 Normal;
+in vec3 FragPos;
 
 //uniform sampler2D oceanTexture;
 //uniform sampler2D islandTexture;

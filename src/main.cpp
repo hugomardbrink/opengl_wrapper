@@ -106,48 +106,48 @@ int32_t main()
 
 
 	float vertices[] = 
-    {
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+	{
+	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
 
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 	};
 
 
@@ -158,75 +158,39 @@ int32_t main()
     };
 
 
-    // Indices for rectangle
-    uint32_t indices[] =
-    {  // note that we start from 0!
-        0, 1, 3,   // first triangle
-        1, 2, 3    // second triangle
-    };
-
     Shader cubeShader("./shaders/VertexShader.vert", "./shaders/FragmentShader.frag");
     Shader lightingShader("./shaders/VertexShader.vert", "./shaders/LightSourceShader.frag");
 
-    VertexArray VAO;
+    VertexArray objectVAO, lightVAO;
 	VertexBuffer VBO(vertices, sizeof(vertices));
 	BufferLayout layout;
 
-    ElementBuffer EBO(indices, sizeof(indices));
-
-
-
-
     layout.push<float>(3); // Vertices
-    layout.push<float>(2); // Texture
+    layout.push<float>(3); // Normals
 
-
-
-    VAO.addBuffer(VBO, layout);
-
-    Texture2D oceanTexture("./assets/textures/ocean_texture.jpg");
-    Texture2D islandTexture("./assets/textures/island_texture.png");
-
-    cubeShader.use();
-    cubeShader.setUniform<int>("oceanTexture", 0);
-    oceanTexture.bind(0);
-    cubeShader.setUniform<int>("islandTexture", 1);
-    islandTexture.bind(1);
-
-
-	lightingShader.use();
-    lightingShader.setUniform<int>("oceanTexture", 0);
-	oceanTexture.bind(0);
-    lightingShader.setUniform<int>("islandTexture", 1);
-	islandTexture.bind(1);
-
+    objectVAO.addBuffer(VBO, layout);
+    lightVAO.addBuffer(VBO, layout);
 
     Camera camera(glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f));
-
+    input.disableCursor(window.getGlfwWindow());
 
     glm::mat4 projection = glm::mat4(1.0f);
     projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
-    cubeShader.use();
-    cubeShader.setUniform<glm::mat4>("projection", projection);
 
-    lightingShader.use();
-    lightingShader.setUniform<glm::mat4>("projection", projection);
-
-    input.disableCursor(window.getGlfwWindow());
-   
-
-
-    glm::vec3 lightColour(1.0f, 1.0f, 1.0f);
     glm::vec3 objectColour(1.0f, 0.5f, 0.31f);
 
 
-
     cubeShader.use();
-    cubeShader.setUniform<glm::vec3>("lightColour", lightColour);
+    cubeShader.setUniform<glm::mat4>("projection", projection);
     cubeShader.setUniform<glm::vec3>("objectColour", objectColour);
+    lightingShader.use();
+    lightingShader.setUniform<glm::mat4>("projection", projection);
 
 
+ 
+    glm::mat4 model;
+    glm::vec3 lightColour;
     renderer.enableDepthTesting();
     while (!window.windowClosing())
     {
@@ -239,28 +203,32 @@ int32_t main()
         renderer.clear(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
         glm::mat4 view = camera.getLookAt();
-        glm::mat4 model;
+        lightColour = glm::vec3(1.0f, 1.0f, 1.0f) * (float) sin(glfwGetTime());
+
+
+
+
+		cubeShader.use();
+		cubeShader.setUniform<glm::vec3>("lightColour", lightColour);
+		cubeShader.setUniform<glm::mat4>("view", view);
+
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, cubePositions[0]);
+		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
+		cubeShader.setUniform<glm::mat4>("model", model);
+		renderer.draw(objectVAO, cubeShader);
+
+
 
 		lightingShader.use();
-
+		lightingShader.setUniform<glm::vec3>("lightColour", lightColour);
 		lightingShader.setUniform<glm::mat4>("view", view);
 
 		model = glm::mat4(1.0f);
 		model = glm::translate(model, cubePositions[1]);
 		lightingShader.setUniform<glm::mat4>("model", model);
-		renderer.draw(VAO, EBO, lightingShader);
+		renderer.draw(lightVAO, lightingShader);
 
-
-
-        cubeShader.use();
-
-        cubeShader.setUniform<glm::mat4>("view", view);
-
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, cubePositions[0]);
-        model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
-        cubeShader.setUniform<glm::mat4>("model", model);
-        renderer.draw(VAO, EBO, cubeShader);
 
 
 
