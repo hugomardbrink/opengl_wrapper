@@ -1,9 +1,10 @@
 #version 330 core
 in vec3 Normal;
 in vec3 FragPos;
+in vec2 texCoord;
 
-//uniform sampler2D oceanTexture;
-//uniform sampler2D islandTexture;
+uniform sampler2D oceanTexture;
+uniform sampler2D islandTexture;
 
 uniform vec3 objectColour;
 uniform vec3 lightColour;
@@ -37,5 +38,5 @@ void main()
     vec3 specular = specularStrength * spec * lightColour;  
 
     vec3 result = (ambient + diffuse + specular) * objectColour;
-    FragColor = vec4(result, 1.0);
+    FragColor = mix(texture(oceanTexture, texCoord), texture(islandTexture, texCoord), texture(islandTexture, texCoord).a) *  vec4(result, 1.0);
 }
