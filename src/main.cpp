@@ -192,13 +192,25 @@ int32_t main()
     projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 
-    glm::vec3 objectColour(1.0f, 1.0f, 1.0f);
+    glm::vec3 objectColour(1.0f, 0.7f, 0.5f);
 
 
     objectShader.use();
 	objectShader.setUniform<glm::mat4>("projection", projection);
 	objectShader.setUniform<glm::vec3>("objectColour", objectColour);
 	objectShader.setUniform<glm::vec3>("lightPos", cubePositions[1]);
+
+	objectShader.setUniform<glm::vec3>("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
+	objectShader.setUniform<glm::vec3>("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+	objectShader.setUniform<glm::vec3>("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+	objectShader.setUniform<float>("material.shininess", 32.0f);
+
+	objectShader.setUniform<glm::vec3>("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+	objectShader.setUniform<glm::vec3>("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
+	objectShader.setUniform<glm::vec3>("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
+
+
+
 	lightSourceShader.use();
 	lightSourceShader.setUniform<glm::mat4>("projection", projection);
 
